@@ -1,0 +1,27 @@
+{
+  "name": "dreambase",
+  "version": "0.0.3",
+  "description": "Database library for universal JS",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreambasejs/dreambase.git"
+  },
+  "keywords": [
+    "database",
+    "dexie",
+    "indexeddb",
+    "postgres",
+    "sql",
+    "database-as-a-service"
+  ],
+  "author": "David Fahlander",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/dreambasejs/dreambase/issues"
+  },
+  "homepage": "https://dreambasejs.com"
+}

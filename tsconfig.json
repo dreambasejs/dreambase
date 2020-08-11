@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": ["es2020", "dom"],
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "jsx": "react",
+    "target": "es2018",
+    "module": "es6",
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "types": ["node", "jest"],
+    "declaration": true,
+    "declarationMap": true,
+    "composite": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true
+  }
+}
