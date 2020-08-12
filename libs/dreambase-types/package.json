@@ -1,23 +1,20 @@
 {
-  "name": "dreambase",
-  "version": "0.0.3",
-  "description": "Database library for universal JS",
+  "name": "dreambase-types",
+  "version": "0.0.1",
+  "description": "Types to use in Dreambase schemas",
   "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "build": "tsc"
+    "test:debug": "echo Open chrome://inspect and click DevTools link && node --inspect ../../node_modules/.bin/jest --runInBand",
+    "build": "tsc",
+    "clean": "rm -rf dist/ && rm -rf *.tsbuildinfo"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dreambasejs/dreambase.git"
   },
   "keywords": [
-    "database",
-    "dexie",
-    "indexeddb",
-    "postgres",
-    "sql",
-    "database-as-a-service"
+    "dreambase"
   ],
   "author": "David Fahlander",
   "license": "Apache-2.0",
