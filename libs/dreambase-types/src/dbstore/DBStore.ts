@@ -1,6 +1,6 @@
 import { DataStore, DataStoreReducerSet } from "incarnation";
-import { Expression } from "../expression/Expression";
-import { DBStoreMutation } from "./DBStoreMutation";
+import { Expression } from "../expression/Expression.js";
+import { DBStoreMutation } from "./DBStoreMutation.js";
 
 export interface DBStoreQuery {
   expr?: Expression;

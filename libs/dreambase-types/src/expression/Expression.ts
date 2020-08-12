@@ -1,4 +1,4 @@
-import { KeyRange } from './KeyRange';
+import { KeyRange } from "./KeyRange.js";
 
 export type Expression =
   | AtomicFormula

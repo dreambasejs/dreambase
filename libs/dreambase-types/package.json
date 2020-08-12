@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Types to use in Dreambase schemas",
   "main": "dist/index.js",
+  "module": "dist/index.js",
+  "esnext": "dist/index.js",
+  "type": "module",
   "scripts": {
     "test": "jest",
     "test:debug": "echo Open chrome://inspect and click DevTools link && node --inspect ../../node_modules/.bin/jest --runInBand",

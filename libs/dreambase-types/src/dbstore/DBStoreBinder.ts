@@ -1,4 +1,4 @@
-import { DBStore, DBStoreQuery } from "./DBStore";
+import { DBStore, DBStoreQuery } from "./DBStore.js";
 
 export class DBStoreBinder {
   /** Bind a certain entity class to a DBStore implementation.

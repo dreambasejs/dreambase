@@ -1,4 +1,4 @@
-import { DBStoreQuery } from "./dbstore/DBStore";
+import { DBStoreQuery } from "./dbstore/DBStore.js";
 
 export class QueryBuilder<T> {
   constructor(public query: DBStoreQuery) {}

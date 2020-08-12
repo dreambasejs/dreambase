@@ -1,4 +1,4 @@
-import { QueryBuilder } from "./QueryBuilder";
+import { QueryBuilder } from "./QueryBuilder.js";
 import {
   invokableClass,
   include,
@@ -7,9 +7,9 @@ import {
   Flavors,
   refDeterministic,
 } from "incarnation";
-import { DBStore, DBStoreQuery } from "./dbstore/DBStore";
-import { DBStoreBinder } from "./dbstore/DBStoreBinder";
-import { Collection } from "./Collection";
+import { DBStore, DBStoreQuery } from "./dbstore/DBStore.js";
+import { DBStoreBinder } from "./dbstore/DBStoreBinder.js";
+import { Collection } from "./Collection.js";
 
 export class _Query<T> extends QueryBuilder<any> {
   constructor(

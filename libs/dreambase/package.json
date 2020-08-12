@@ -3,6 +3,9 @@
   "version": "0.0.3",
   "description": "Database library for universal JS",
   "main": "dist/index.js",
+  "module": "dist/index.js",
+  "esnext": "dist/index.js",
+  "type": "module",
   "scripts": {
     "test": "jest",
     "build": "tsc"

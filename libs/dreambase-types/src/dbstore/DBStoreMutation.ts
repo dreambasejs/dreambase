@@ -1,4 +1,4 @@
-import { Expression } from "../expression/Expression";
+import { Expression } from "../expression/Expression.js";
 
 export type DBStoreInsertMutation = {
   type: "insert";
