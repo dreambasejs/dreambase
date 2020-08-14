@@ -1,7 +1,7 @@
 # Definiera CollectionSchema typ.
 
 [ ] Titta på tidigare arbete.
-[ ] Döp om DatabaseConfig till DatabaseSchema.
+[V] Döp om DatabaseConfig till DatabaseSchema.
 [ ] Structure istället för fields?
 [ ] PrimaryKey?
 

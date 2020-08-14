@@ -6,7 +6,7 @@ import {
   inject,
   Middleware,
 } from "incarnation";
-import { Collection, DBStoreBinder, DatabaseConfig } from "dreambase-types";
+import { Collection, DBStoreBinder, DBSchema } from "dreambase-types";
 import { DreambaseSchema } from "./DreambaseSchema";
 
 export interface DreambaseConstructor {
@@ -19,7 +19,7 @@ class _Dreambase<TSchema extends DreambaseSchema> {
     TSchema
   > = {} as SchemaToCollectionSet<TSchema>;
   private _entityToNameMap = new Map<new () => any, string>();
-  readonly configuration: DatabaseConfig;
+  readonly configuration: DBSchema;
 
   constructor(schema: TSchema) {
     for (const [tableName, Entity] of Object.entries(schema)) {
@@ -31,7 +31,7 @@ class _Dreambase<TSchema extends DreambaseSchema> {
       }
     }
     const entityToNameMap = this._entityToNameMap;
-    const configuration: DatabaseConfig = {
+    const configuration: DBSchema = {
       collections: Object.entries(schema).map(([name, EntityClass]) => ({
         name,
         CollectionClass: Collection.of(EntityClass),

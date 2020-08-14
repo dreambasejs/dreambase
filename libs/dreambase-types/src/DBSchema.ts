@@ -1,10 +1,10 @@
 import { Collection } from "./Collection";
 
-export interface DatabaseConfig {
-  collections: CollectionConfig[];
+export interface DBSchema {
+  collections: CollectionSchema[];
 }
 
-export interface CollectionConfig {
+export interface CollectionSchema {
   name: string;
   fields: any; // TODO: FIXTHIS!
   CollectionClass: new () => Collection<any>;

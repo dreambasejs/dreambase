@@ -1,5 +1,5 @@
 import { DBStore, DBStoreQuery } from "./DBStore.js";
-import { DatabaseConfig } from "../DatabaseConfig.js";
+import { DBSchema } from "../DBSchema.js";
 
 export class DBStoreBinder {
   /** Bind a certain entity class to a DBStore implementation.
@@ -15,7 +15,7 @@ export class DBStoreBinder {
 
   getCollec;
 
-  getDatabaseConfig(EntityClass: new () => any): DatabaseConfig | null {
+  getDatabaseConfig(EntityClass: new () => any): DBSchema | null {
     return null;
   }
 }
