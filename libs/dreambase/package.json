@@ -29,6 +29,7 @@
   },
   "homepage": "https://dreambasejs.com",
   "dependencies": {
+    "dreambase-types": "^0.0.1",
     "incarnation": "^0.0.1"
   }
 }

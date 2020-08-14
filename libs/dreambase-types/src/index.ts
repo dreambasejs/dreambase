@@ -6,3 +6,4 @@ export { DBStoreBinder } from "./dbstore/DBStoreBinder.js";
 export { Collection } from "./Collection.js";
 export { Query } from "./Query.js";
 export { QueryBuilder } from "./QueryBuilder.js";
+export { DatabaseConfig, CollectionConfig } from "./DatabaseConfig";
