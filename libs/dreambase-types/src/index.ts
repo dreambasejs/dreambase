@@ -6,4 +6,5 @@ export { DBStoreBinder } from "./dbstore/DBStoreBinder.js";
 export { Collection } from "./Collection.js";
 export { Query } from "./Query.js";
 export { QueryBuilder } from "./QueryBuilder.js";
-export { DBSchema, CollectionSchema } from "./DBSchema";
+export { DBSchema } from "./schema/DBSchema.js";
+export { CollectionSchema } from "./schema/CollectionSchema.js";

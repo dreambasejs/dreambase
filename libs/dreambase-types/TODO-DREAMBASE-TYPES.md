@@ -1,14 +1,18 @@
 # Definiera CollectionSchema typ.
 
-[ ] Titta på tidigare arbete.
+[V] Titta på tidigare arbete i dbtypes paketet!
 [V] Döp om DatabaseConfig till DatabaseSchema.
-[ ] Structure istället för fields?
-[ ] PrimaryKey?
+[V] Structure istället för fields?
+[V] PrimaryKey?
 
 # Börja titta på typer (se tidigare arbete men kopiera inte direkt eftersom det funkar annorlunda)
 
-[ ] Type()
-[ ] Indexed()
+[V] Type()
+[V] Indexed()
+[V] Composite
+[ ] Update PrimaryKey so that it returns `{[PrimaryKeyType]: theType}` instad of `{[IsPrimaryKey]: true}`
+[ ] Uppdatera parseType att köra instansieringsfaserna
+så att Composite (och de andra) funkar.
 [ ] Text() ? Case-insensitive text?
 [ ] FullText()
 

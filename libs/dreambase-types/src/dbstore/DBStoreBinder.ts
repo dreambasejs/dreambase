@@ -1,5 +1,5 @@
 import { DBStore, DBStoreQuery } from "./DBStore.js";
-import { DBSchema } from "../DBSchema.js";
+import { DBSchema } from "../schema/DBSchema.js";
 
 export class DBStoreBinder {
   /** Bind a certain entity class to a DBStore implementation.
