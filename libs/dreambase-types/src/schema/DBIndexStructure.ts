@@ -2,7 +2,8 @@ import { DBTypeStructure } from "./DBTypeStructure.js";
 
 export interface DBIndexStructure {
   unique?: boolean;
-  compositeProps?: DBTypeStructure<any>[];
+  compoundGetters?: (() => DBTypeStructure<any>)[];
+  compoundKeys?: DBTypeStructure<any>[]; // Exists after fully parsed.
   isPrimaryKey?: boolean;
-  generated?: boolean;
+  autoIncrement?: boolean;
 }

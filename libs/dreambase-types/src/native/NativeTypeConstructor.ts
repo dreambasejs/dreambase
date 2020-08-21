@@ -4,4 +4,5 @@ export type NativeTypeConstructor =
   | BooleanConstructor
   | DateConstructor
   | ArrayBufferConstructor
-  | Uint8ArrayConstructor;
+  | Uint8ArrayConstructor
+  | BigIntConstructor;

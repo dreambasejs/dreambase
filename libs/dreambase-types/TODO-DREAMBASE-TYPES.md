@@ -10,9 +10,20 @@
 [V] Type()
 [V] Indexed()
 [V] Composite
-[ ] Update PrimaryKey so that it returns `{[PrimaryKeyType]: theType}` instad of `{[IsPrimaryKey]: true}`
-[ ] Uppdatera parseType att köra instansieringsfaserna
+[V] Update PrimaryKey so that it returns `{[PrimaryKeyType]: theType}` instad of `{[IsPrimaryKey]: true}`
+[V] Uppdatera parseType att köra instansieringsfaserna
 så att Composite (och de andra) funkar.
+[V] Skicka med type-options vid anrop till parseType()
+[V] ArrayOf.
+[V] Typ: `PrimaryKeyOf<T>` hittar primärnyckelfältet.
+[V] Stöd också id = PrimaryKey(String, ()=>this.name, ()=>this.age). Skippa Composite??? Ja!
+[V] Implementera runtime-biten i PrimaryKey såsom det är implementerat i Composite och släng Composite.
+[V] Bygg klart PrimaryKey() och tolka PrimaryKeyOptions.
+[V] Stöd composita field getters i Indexed(). Tolka options.
+[V] Dreambase: använd parseType för att bygga upp schemat.
+[ ] Bygg ett unit test för parseType. Snegla på dxlservers unit test för detta. Och kanske dess kod lite.
+[ ] Stödja options till Indexed och PrimaryKey? Tror ej behövs nu. Men om, sätt det som överlagrad alternativ funktion.
+[ ] Collection använder det i update metod bla.
 [ ] Text() ? Case-insensitive text?
 [ ] FullText()
 

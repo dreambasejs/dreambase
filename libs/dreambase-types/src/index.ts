@@ -8,3 +8,4 @@ export { Query } from "./Query.js";
 export { QueryBuilder } from "./QueryBuilder.js";
 export { DBSchema } from "./schema/DBSchema.js";
 export { CollectionSchema } from "./schema/CollectionSchema.js";
+export { parseType, finalizeType } from "./schema/parseType.js";

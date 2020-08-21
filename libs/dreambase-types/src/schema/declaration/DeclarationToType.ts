@@ -15,6 +15,8 @@ export type DeclarationToType<T> = T extends DBTypeContainer<any>
   ? ArrayBuffer
   : T extends Uint8ArrayConstructor
   ? Uint8Array
+  : T extends BigIntConstructor
+  ? bigint
   : T extends { new (...args: any[]): infer R }
   ? R
   : T extends { [prop: string]: any }

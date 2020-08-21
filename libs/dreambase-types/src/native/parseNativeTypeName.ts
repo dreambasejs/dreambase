@@ -4,7 +4,8 @@ const map = new Map<any, { typeName: string; default: any }>([
   [Boolean, { typeName: "boolean", default: false }],
   [Date, { typeName: "Date", default: new Date(0) }],
   [ArrayBuffer, { typeName: "ArrayBuffer", default: new ArrayBuffer(0) }],
-  [Uint8Array, { typeName: "Uint8Array", default: new Uint8Array(0) }]
+  [Uint8Array, { typeName: "Uint8Array", default: new Uint8Array(0) }],
+  [BigInt, { typeName: "bigint", default: BigInt(0) }],
 ]);
 export function parseNativeTypeName(
   type: any

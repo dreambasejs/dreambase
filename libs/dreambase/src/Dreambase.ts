@@ -6,8 +6,14 @@ import {
   inject,
   Middleware,
 } from "incarnation";
-import { Collection, DBStoreBinder, DBSchema } from "dreambase-types";
+import {
+  Collection,
+  DBStoreBinder,
+  DBSchema,
+  parseType,
+} from "dreambase-types";
 import { DreambaseSchema } from "./DreambaseSchema";
+import { finalizeType } from "dreambase-types/dist/schema/parseType";
 
 export interface DreambaseConstructor {
   new <TSchema extends DreambaseSchema>(schema: TSchema): Dreambase<TSchema>;
@@ -32,12 +38,16 @@ class _Dreambase<TSchema extends DreambaseSchema> {
     }
     const entityToNameMap = this._entityToNameMap;
     const configuration: DBSchema = {
-      collections: Object.entries(schema).map(([name, EntityClass]) => ({
-        name,
-        CollectionClass: Collection.of(EntityClass),
-        EntityClass,
-        fields: null, // TODO: FIXTHIS: Instanciate EntityClass in a context to get its schema.
-      })),
+      collections: Object.entries(schema).map(([name, EntityClass]) => {
+        const entityType = parseType(EntityClass);
+        finalizeType(entityType);
+        return {
+          name,
+          CollectionClass: Collection.of(EntityClass),
+          EntityClass,
+          type: entityType,
+        };
+      }),
     };
     this._env.add(
       new Middleware(
