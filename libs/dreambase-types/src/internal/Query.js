@@ -1,5 +1,6 @@
-import { Collection } from "./Collection";
-import { IsLazy } from "incarnation";
+import { Collection } from "./Collection.js";
+import { IsLazy, refDeterministic, inject } from "incarnation";
+import { DBStoreBinder } from "../dbstore/DBStoreBinder.js";
 
 export class Query extends Collection {
   get $flavors() {

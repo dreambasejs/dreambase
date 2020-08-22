@@ -1,0 +1,139 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test-readSchema Car should match snapshot 1`] = `
+Object {
+  "ctor": [Function],
+  "default": Car {
+    "date": 1970-01-01T00:00:00.000Z,
+    "name": "",
+  },
+  "properties": Object {
+    "date": Object {
+      "ctor": [Function],
+      "default": 1970-01-01T00:00:00.000Z,
+      "keyPath": "date",
+      "parent": [Circular],
+      "type": "Date",
+      "typeSpecificOptions": Object {},
+    },
+    "name": Object {
+      "ctor": [Function],
+      "default": "",
+      "keyPath": "name",
+      "parent": [Circular],
+      "type": "string",
+      "typeSpecificOptions": Object {},
+    },
+  },
+  "type": "Car",
+  "typeSpecificOptions": Object {},
+}
+`;
+
+exports[`test-readSchema Friend should match snapshot 1`] = `
+Object {
+  "ctor": [Function],
+  "default": Friend {
+    "age": 0,
+    "id": 0,
+    "name": "",
+    "school": Object {
+      "address": Object {
+        "city": "",
+      },
+      "name": "",
+    },
+  },
+  "properties": Object {
+    "age": Object {
+      "ctor": [Function],
+      "default": 0,
+      "indexes": Array [
+        Object {
+          "unique": false,
+        },
+      ],
+      "keyPath": "age",
+      "parent": [Circular],
+      "type": "number",
+      "typeSpecificOptions": Object {},
+    },
+    "id": Object {
+      "ctor": [Function],
+      "default": 0,
+      "indexes": Array [
+        Object {
+          "autoIncrement": true,
+          "isPrimaryKey": true,
+          "unique": true,
+        },
+      ],
+      "keyPath": "id",
+      "parent": [Circular],
+      "type": "number",
+      "typeSpecificOptions": Object {},
+    },
+    "name": Object {
+      "ctor": [Function],
+      "default": "",
+      "keyPath": "name",
+      "parent": [Circular],
+      "type": "string",
+      "typeSpecificOptions": Object {},
+    },
+    "school": Object {
+      "ctor": [Function],
+      "default": Object {},
+      "keyPath": "school",
+      "parent": [Circular],
+      "properties": Object {
+        "address": Object {
+          "ctor": [Function],
+          "default": Object {},
+          "keyPath": "school.address",
+          "parent": [Circular],
+          "properties": Object {
+            "city": Object {
+              "ctor": [Function],
+              "default": "",
+              "indexes": Array [
+                Object {
+                  "compoundKeys": Array [
+                    Object {
+                      "ctor": [Function],
+                      "default": "",
+                      "keyPath": "school.name",
+                      "parent": [Circular],
+                      "type": "string",
+                      "typeSpecificOptions": Object {},
+                    },
+                  ],
+                  "unique": false,
+                },
+              ],
+              "keyPath": "school.address.city",
+              "parent": [Circular],
+              "type": "string",
+              "typeSpecificOptions": Object {
+                "compoundWith": [Function],
+              },
+            },
+          },
+          "type": "structure",
+        },
+        "name": Object {
+          "ctor": [Function],
+          "default": "",
+          "keyPath": "school.name",
+          "parent": [Circular],
+          "type": "string",
+          "typeSpecificOptions": Object {},
+        },
+      },
+      "type": "structure",
+    },
+  },
+  "type": "Friend",
+  "typeSpecificOptions": Object {},
+}
+`;

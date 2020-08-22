@@ -9,7 +9,7 @@ export function Type<TTypeDeclaration>(
   options?: TypeOptions<DeclarationToType<TTypeDeclaration>>
 ): DeclarationToType<TTypeDeclaration> {
   const parsedType = parseType(type, options);
-  return parseTypeMode.activeType
+  return parseTypeMode.on
     ? ({ [DBTypeSymbol]: parsedType } as any) // We lie intentionally!
     : parsedType.default;
 }

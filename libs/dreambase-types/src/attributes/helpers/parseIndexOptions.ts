@@ -7,11 +7,11 @@ export function parseIndexOptions(
 ) {
   if (!compoundWith) {
     // foo = Indexed(String);
-    outIndexes.push({ unique });
+    outIndexes.push({ unique: !!unique });
   } else if (typeof compoundWith === "function") {
     // foo = Indexed(String, {compoundWith: ()=>this.bar})
     outIndexes.push({
-      unique,
+      unique: !!unique,
       compoundGetters: [compoundWith],
     });
   } else if (Array.isArray(compoundWith)) {

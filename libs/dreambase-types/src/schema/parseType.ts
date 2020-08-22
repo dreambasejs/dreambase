@@ -3,6 +3,7 @@ import { DBTypeSymbol } from "../symbols/DBTypeSymbol.js";
 import { parseNativeTypeName } from "../native/parseNativeTypeName.js";
 import { parseTypeMode } from "./parseTypeMode.js";
 import { TypeOptions } from "../attributes/options/TypeOptions.js";
+import { DBTypeContainer } from "./DBTypeContainer.js";
 
 export function parseType(
   type: any,
@@ -33,16 +34,15 @@ export function parseType(
   }
   if (typeof type === "function" && type.prototype) {
     // Could be a class constructor.
-    const parentActiveType = parseTypeMode.activeType;
+    const parentTypeMode = parseTypeMode.on;
     try {
       const result: DBTypeStructure<any> = {
         ctor: type,
         default: null, //new type(),
         type: type.name,
-        parent: parentActiveType,
         typeSpecificOptions,
       };
-      parseTypeMode.activeType = result;
+      parseTypeMode.on = true;
       // phase 1: instanciation:
       // Here, since activeType is truthy,
       // parseType() is called recursively for each declared field.
@@ -51,19 +51,20 @@ export function parseType(
       // to DBTypeStructures afterwards.
       const declInstance = new type();
       // phase 2: proptype inspection
-      parseTypeMode.activeType = null; // To retrieve instance as a default value.
+      parseTypeMode.on = false; // To retrieve instance as a default value.
       result.default = hasSpecifiedDefault
         ? givenDefault
         : nullable
         ? null
         : new type();
       const properties = parsePropertyDeclarations(declInstance);
-      Object.assign(declInstance, properties); // So that field getters get the right thing.
       result.properties = properties;
+      result.declInstance = declInstance;
+      return result;
     } finally {
-      parseTypeMode.activeType = parentActiveType;
+      parseTypeMode.on = parentTypeMode;
     }
-  } else if (parseTypeMode.activeType) {
+  } else if (parseTypeMode.on) {
     // TODO: Support Object: See above impl. Move here?
     //  Array: Specially! See "TODO: FIXTHIS above . Serach for Array.isArray. Should be done here!"
     //  strings, numbers, booleans: Let them declare directly. Don't allow any type.
@@ -84,7 +85,7 @@ export function parseType(
     }
   }
   // TODO: Remove this code below as we allow plain values, arrays and objects!
-  if (parseTypeMode.activeType) {
+  if (parseTypeMode.on) {
     // When parsing. Never accept plain values TODO: OR SHOULD WE?!
     throw new Error("Invalid type was given: " + type);
   }
@@ -140,6 +141,7 @@ function parsePropertyDeclarations(
         `For all types but strings, numbers, booleans, arrays, objects and bigints, you must declare fields using Type(), ArrayOf(), Indexed(), PrimaryKey(), etc.`
       );
     }
+    properties[propName] = resultProp;
   }
   return properties;
 }
@@ -181,20 +183,42 @@ function errorType(errMsg: string): DBTypeStructure<any> {
 
 export function finalizeType(type: DBTypeStructure<any>, keyPath = "") {
   if (!type.properties) return;
+  if (type.declInstance) {
+    // Make keypaths for compoundGetters
+    populateDeclInstance(type.declInstance, type.properties);
+    delete type.declInstance;
+  }
   for (const [propName, propVal] of Object.entries(type.properties)) {
     propVal.indexes?.forEach?.((idx) => {
-      idx.compoundKeys = idx.compoundGetters?.map?.((fn) => fn());
+      const compoundKeys = idx.compoundGetters?.map?.((fn) => {
+        const propContainer = fn();
+        return propContainer?.[DBTypeSymbol] || propContainer;
+      });
+      if (compoundKeys) idx.compoundKeys = compoundKeys;
+      delete idx.compoundGetters;
     });
     propVal.keyPath = keyPath + propName;
     propVal.parent = type;
     if (propVal.properties) {
-      finalizeType(propVal, propName + ".");
+      finalizeType(propVal, keyPath + propName + ".");
     } else if (propVal.item) {
       propVal.item.keyPath = keyPath + propName; // Do it the IndexedDB way.
       propVal.item.parent = propVal;
       if (propVal.item.properties) {
         finalizeType(propVal.item, keyPath + propName + "[].");
       }
+    }
+  }
+}
+
+function populateDeclInstance(
+  declInstance: object,
+  properties: { [propName: string]: DBTypeStructure<any> }
+) {
+  for (const [propName, typeDef] of Object.entries(properties)) {
+    declInstance[propName] = { [DBTypeSymbol]: typeDef };
+    if (typeDef.properties) {
+      populateDeclInstance(declInstance[propName], typeDef.properties);
     }
   }
 }

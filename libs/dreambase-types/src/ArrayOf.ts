@@ -10,7 +10,7 @@ export function ArrayOf<TTypeDeclaration>(
   options?: TypeOptions<DeclarationToType<TTypeDeclaration>>
 ): DeclarationToType<TTypeDeclaration>[] {
   const itemType = parseType(type);
-  if (!parseTypeMode.activeType) return type as any;
+  if (!parseTypeMode.on) return type as any;
   return {
     [DBTypeSymbol]: <DBTypeStructure<any[]>>{
       ctor: Array,

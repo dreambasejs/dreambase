@@ -5,6 +5,7 @@ import { TypeOptions } from "../attributes/options/TypeOptions.js";
 export interface DBTypeStructure<T> {
   type: string;
   ctor: Function;
+  declInstance?: object;
   default: T;
   properties?: { [propName in keyof T]: DBTypeStructure<T[propName]> };
   item?: DBTypeStructure<

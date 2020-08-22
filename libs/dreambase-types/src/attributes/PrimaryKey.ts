@@ -27,12 +27,9 @@ export function PrimaryKey<TTypeDeclaration extends NativeTypeConstructor>(
 ): DeclarationToType<TTypeDeclaration> &
   IsPrimaryKey<DeclarationToType<TTypeDeclaration>> {
   const parsedType = parseType(type);
-  if (!parseTypeMode.activeType) return parsedType.default;
+  if (!parseTypeMode.on) return parsedType.default;
 
-  const [primaryIndex, ...forbidden] = parseIndexOptions(
-    { compoundWith: options?.compoundWith, unique: true },
-    []
-  );
+  const [primaryIndex, ...forbidden] = parseIndexOptions({ unique: true }, []);
 
   if (forbidden.length > 0) {
     throw new TypeError(
@@ -42,7 +39,7 @@ export function PrimaryKey<TTypeDeclaration extends NativeTypeConstructor>(
 
   Object.assign(primaryIndex, <DBIndexStructure>{
     isPrimaryKey: true,
-    autoIncrement: (options as PrimaryKeyOptions<number>).autoIncrement,
+    ...options,
   });
 
   const indexes = [primaryIndex, ...(parsedType.indexes || [])];

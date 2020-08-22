@@ -13,7 +13,7 @@ export function Indexed<TTypeDeclaration>(
     TypeOptions<DeclarationToType<TTypeDeclaration>>
 ): DeclarationToType<TTypeDeclaration> {
   const parsedType = parseType(type, options);
-  if (!parseTypeMode.activeType) return parsedType.default;
+  if (!parseTypeMode.on) return parsedType.default;
 
   const indexes = parseIndexOptions(options || {}, [
     ...(parsedType.indexes || []),
