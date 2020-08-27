@@ -1,10 +1,18 @@
-import { Indexed, PrimaryKey, Type, parseType, readSchema } from "../src/index";
+import {
+  Indexed,
+  PrimaryKey,
+  Type,
+  parseType,
+  readSchema,
+  ArrayOf,
+} from "../src/index";
 
 describe("test-readSchema", () => {
   class Friend {
     id = PrimaryKey(Number, { autoIncrement: true });
     name = Type(String);
     age = Indexed(Number);
+    tags = ArrayOf(Indexed(String));
     school = {
       name: Type(String),
       address: {

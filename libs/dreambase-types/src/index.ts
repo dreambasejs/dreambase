@@ -13,3 +13,4 @@ export { readSchema } from "./schema/readSchema.js";
 export { PrimaryKey } from "./attributes/PrimaryKey.js";
 export { Indexed } from "./attributes/Indexed.js";
 export { Type } from "./attributes/Type.js";
+export { ArrayOf } from "./ArrayOf.js";

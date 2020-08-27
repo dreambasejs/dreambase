@@ -43,6 +43,7 @@ Object {
       },
       "name": "",
     },
+    "tags": Array [],
   },
   "properties": Object {
     "age": Object {
@@ -131,6 +132,26 @@ Object {
         },
       },
       "type": "structure",
+    },
+    "tags": Object {
+      "ctor": [Function],
+      "default": Array [],
+      "item": Object {
+        "ctor": [Function],
+        "default": "",
+        "indexes": Array [
+          Object {
+            "unique": false,
+          },
+        ],
+        "keyPath": "tags",
+        "parent": [Circular],
+        "type": "string",
+        "typeSpecificOptions": Object {},
+      },
+      "keyPath": "tags",
+      "parent": [Circular],
+      "type": "array",
     },
   },
   "type": "Friend",
