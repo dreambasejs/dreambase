@@ -13,6 +13,7 @@ describe("test-readSchema", () => {
     name = Type(String);
     age = Indexed(Number);
     tags = ArrayOf(Indexed(String));
+    strArrWithDefault = ArrayOf(String, { default: ["foo", "bar", "3"] });
     school = {
       name: Type(String),
       address: {

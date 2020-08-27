@@ -7,14 +7,14 @@ import { DBTypeSymbol } from "./symbols/DBTypeSymbol.js";
 
 export function ArrayOf<TTypeDeclaration>(
   type: TTypeDeclaration,
-  options?: TypeOptions<DeclarationToType<TTypeDeclaration>>
+  options?: TypeOptions<DeclarationToType<TTypeDeclaration>[]>
 ): DeclarationToType<TTypeDeclaration>[] {
   const itemType = parseType(type);
   if (!parseTypeMode.on) return (options?.default || []) as any;
   return {
     [DBTypeSymbol]: <DBTypeStructure<any[]>>{
       ctor: Array,
-      default: options?.default ?? options?.nullable ? null : [],
+      default: options?.default || (options?.nullable ? null : []),
       type: "array",
       item: itemType,
     },

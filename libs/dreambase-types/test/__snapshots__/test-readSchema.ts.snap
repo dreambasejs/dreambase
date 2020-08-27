@@ -43,6 +43,11 @@ Object {
       },
       "name": "",
     },
+    "strArrWithDefault": Array [
+      "foo",
+      "bar",
+      "3",
+    ],
     "tags": Array [],
   },
   "properties": Object {
@@ -132,6 +137,25 @@ Object {
         },
       },
       "type": "structure",
+    },
+    "strArrWithDefault": Object {
+      "ctor": [Function],
+      "default": Array [
+        "foo",
+        "bar",
+        "3",
+      ],
+      "item": Object {
+        "ctor": [Function],
+        "default": "",
+        "keyPath": "strArrWithDefault",
+        "parent": [Circular],
+        "type": "string",
+        "typeSpecificOptions": Object {},
+      },
+      "keyPath": "strArrWithDefault",
+      "parent": [Circular],
+      "type": "array",
     },
     "tags": Object {
       "ctor": [Function],
