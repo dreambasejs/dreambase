@@ -13,6 +13,7 @@ import {
   CollectionConstructor,
 } from "../Collection";
 import { createSpecificCollection } from "./createSpecificCollection";
+import { PrimaryKeyOf } from "../attributes/PrimaryKey.js";
 
 export class Collection<T> extends QueryBuilder<T> implements ICollection<T> {
   constructor(
@@ -30,6 +31,10 @@ export class Collection<T> extends QueryBuilder<T> implements ICollection<T> {
       suspense: Query(this.Entity),
       promise: this,
     };
+  }
+
+  bulkAdd(items: readonly T[]): Promise<PrimaryKeyOf<T>[]> {
+    throw "not impl";
   }
 
   toArray(): Promise<T[]> {
