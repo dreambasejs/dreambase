@@ -36,6 +36,7 @@ Object {
   "default": Friend {
     "age": 0,
     "cars": Array [],
+    "cats": Array [],
     "id": 0,
     "name": "",
     "school": Object {
@@ -98,6 +99,46 @@ Object {
         "typeSpecificOptions": Object {},
       },
       "keyPath": "cars",
+      "parent": [Circular],
+      "type": "array",
+    },
+    "cats": Object {
+      "ctor": [Function],
+      "default": Array [],
+      "item": Object {
+        "ctor": [Function],
+        "default": Object {
+          "age": 0,
+          "name": "",
+        },
+        "keyPath": "cats",
+        "parent": [Circular],
+        "properties": Object {
+          "age": Object {
+            "ctor": [Function],
+            "default": 0,
+            "indexes": Array [
+              Object {
+                "unique": false,
+              },
+            ],
+            "keyPath": "cats[].age",
+            "parent": [Circular],
+            "type": "number",
+            "typeSpecificOptions": Object {},
+          },
+          "name": Object {
+            "ctor": [Function],
+            "default": "",
+            "keyPath": "cats[].name",
+            "parent": [Circular],
+            "type": "string",
+            "typeSpecificOptions": Object {},
+          },
+        },
+        "type": "structure",
+      },
+      "keyPath": "cats",
       "parent": [Circular],
       "type": "array",
     },

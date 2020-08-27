@@ -15,6 +15,10 @@ describe("test-readSchema", () => {
     tags = ArrayOf(Indexed(String));
     strArrWithDefault = ArrayOf(String, { default: ["foo", "bar", "3"] });
     cars = ArrayOf(Car);
+    cats = ArrayOf({
+      name: Type(String),
+      age: Indexed(Number),
+    });
     school = {
       name: Type(String),
       address: {
