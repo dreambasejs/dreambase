@@ -35,6 +35,7 @@ Object {
   "ctor": [Function],
   "default": Friend {
     "age": 0,
+    "cars": Array [],
     "id": 0,
     "name": "",
     "school": Object {
@@ -63,6 +64,42 @@ Object {
       "parent": [Circular],
       "type": "number",
       "typeSpecificOptions": Object {},
+    },
+    "cars": Object {
+      "ctor": [Function],
+      "default": Array [],
+      "item": Object {
+        "ctor": [Function],
+        "default": Car {
+          "date": 1970-01-01T00:00:00.000Z,
+          "name": "",
+        },
+        "keyPath": "cars",
+        "parent": [Circular],
+        "properties": Object {
+          "date": Object {
+            "ctor": [Function],
+            "default": 1970-01-01T00:00:00.000Z,
+            "keyPath": "cars[].date",
+            "parent": [Circular],
+            "type": "Date",
+            "typeSpecificOptions": Object {},
+          },
+          "name": Object {
+            "ctor": [Function],
+            "default": "",
+            "keyPath": "cars[].name",
+            "parent": [Circular],
+            "type": "string",
+            "typeSpecificOptions": Object {},
+          },
+        },
+        "type": "Car",
+        "typeSpecificOptions": Object {},
+      },
+      "keyPath": "cars",
+      "parent": [Circular],
+      "type": "array",
     },
     "id": Object {
       "ctor": [Function],
