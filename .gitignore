@@ -2,3 +2,4 @@ node_modules
 *.log
 dist
 *.tsbuildinfo
+libs/dreambase-types/src/test.md
