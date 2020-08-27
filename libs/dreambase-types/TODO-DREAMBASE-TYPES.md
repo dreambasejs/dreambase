@@ -21,11 +21,11 @@ så att Composite (och de andra) funkar.
 [V] Bygg klart PrimaryKey() och tolka PrimaryKeyOptions.
 [V] Stöd composita field getters i Indexed(). Tolka options.
 [V] Dreambase: använd parseType för att bygga upp schemat.
-[ ] Bygg ett unit test för parseType. Snegla på dxlservers unit test för detta. Och kanske dess kod lite.
-[ ] Stödja options till Indexed och PrimaryKey? Tror ej behövs nu. Men om, sätt det som överlagrad alternativ funktion.
-[ ] Collection använder det i update metod bla.
-[ ] Text() ? Case-insensitive text?
-[ ] FullText()
+[V] Bygg ett unit test för parseType. Snegla på dxlservers unit test för detta. Och kanske dess kod lite.
+[V] Stödja options till Indexed och PrimaryKey? Tror ej behövs nu. Men om, sätt det som överlagrad alternativ funktion.
+[ ] Type(Name) ? Case-insensitive string. startsWith(). Not endsWith().
+[ ] Type(Text) ? Full-text search.
+// EJ ÄN:[ ] Type(FuzzyString) ? String with trigram indexes.
 
 # Enligt dagens beslut: Kör på pretty-mongo style queries!
 
