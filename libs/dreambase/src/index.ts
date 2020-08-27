@@ -1,1 +1,1 @@
-console.log("Hello from dreambase");
+export { Dreambase } from "./Dreambase.js";

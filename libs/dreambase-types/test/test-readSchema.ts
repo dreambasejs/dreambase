@@ -5,12 +5,13 @@ import {
   parseType,
   readSchema,
   ArrayOf,
+  Name,
 } from "../src/index";
 
 describe("test-readSchema", () => {
   class Friend {
     id = PrimaryKey(Number, { autoIncrement: true });
-    name = Type(String);
+    name = Type(Name);
     age = Indexed(Number);
     tags = ArrayOf(Indexed(String));
     strArrWithDefault = ArrayOf(String, { default: ["foo", "bar", "3"] });
@@ -28,7 +29,7 @@ describe("test-readSchema", () => {
   }
 
   class Car {
-    name = Type(String);
+    name = Type(Name);
     date = Type(Date);
   }
 
