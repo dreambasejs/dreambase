@@ -1,5 +1,4 @@
 const { defaults } = require("jest-config");
-//console.log("moduleNameMapper:", defaults.moduleNameMapper);
 module.exports = {
   preset: "ts-jest/presets/js-with-ts",
   testEnvironment: "node",

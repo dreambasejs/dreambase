@@ -13,8 +13,6 @@ export class DBStoreBinder {
     return EntityClass.name;
   }
 
-  getCollec;
-
   getDatabaseConfig(EntityClass: new () => any): DBSchema | null {
     return null;
   }
