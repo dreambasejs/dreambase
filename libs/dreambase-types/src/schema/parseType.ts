@@ -1,9 +1,16 @@
 import { DBTypeStructure } from "./DBTypeStructure.js";
 import { DBTypeSymbol } from "../symbols/DBTypeSymbol.js";
-import { parseNativeTypeName } from "../native/parseNativeTypeName.js";
+import { nativeTypeMap } from "../native/nativeTypeMap.js";
 import { parseTypeMode } from "./parseTypeMode.js";
 import { TypeOptions } from "../attributes/options/TypeOptions.js";
 import { DBTypeContainer } from "./DBTypeContainer.js";
+import { DBIndexStructure } from "./DBIndexStructure.js";
+import {
+  getArrayCmp,
+  getEntityCmp,
+  getObjectCmp,
+  sameTypeNativeCmp,
+} from "../cmp/defaultCmp.js";
 
 export function parseType(
   type: any,
@@ -19,19 +26,8 @@ export function parseType(
     const result = type[DBTypeSymbol];
     return hasSpecifiedDefault ? { ...result, default: givenDefault } : result;
   }
-  const directTypeString = parseNativeTypeName(type);
-  if (directTypeString) {
-    return {
-      type: directTypeString.typeName,
-      ctor: type as Function,
-      default: hasSpecifiedDefault
-        ? givenDefault
-        : nullable
-        ? null
-        : directTypeString.default,
-      typeSpecificOptions,
-    };
-  }
+  const nativeType = nativeTypeMap.get(type);
+  if (nativeType) return nativeType;
   if (typeof type === "function" && type.prototype) {
     // Could be a class constructor.
     const parentTypeMode = parseTypeMode.on;
@@ -39,8 +35,9 @@ export function parseType(
       const result: DBTypeStructure<any> = {
         ctor: type,
         default: null, //new type(),
-        type: type.name,
+        type: "entity",
         typeSpecificOptions,
+        indexedProps: [],
       };
       parseTypeMode.on = true;
       // phase 1: instanciation:
@@ -77,7 +74,7 @@ export function parseType(
         deflt[prop] = typeInfo.default;
       }
       return {
-        type: "structure",
+        type: "object",
         properties,
         ctor: Object,
         default: deflt,
@@ -100,7 +97,7 @@ export function parseType(
 
 function parsePojoObject(obj: object): DBTypeStructure<unknown> {
   return {
-    type: "structure",
+    type: "object",
     properties: parsePropertyDeclarations(obj),
     ctor: Object,
     default: {},
@@ -181,14 +178,28 @@ function errorType(errMsg: string): DBTypeStructure<any> {
   };
 }
 
-export function finalizeType(type: DBTypeStructure<any>, keyPath = "") {
+export function finalizeType(
+  type: DBTypeStructure<any>,
+  keyPath = "",
+  entity: DBTypeStructure<any> | undefined | null = null,
+  parentArray: DBTypeStructure<any[]> | null = null
+) {
   if (!type.properties) return;
+  if (
+    type.type === "entity" || // If inner prop is a Class itself, do not regard primarykeys as keys on parent.
+    !entity // If no entity was provided but this is an object (root object), allow it to be regarded an entity (not sure if needed though!)
+  ) {
+    entity = type;
+  }
   if (type.declInstance) {
     // Make keypaths for compoundGetters
     populateDeclInstance(type.declInstance, type.properties);
     delete type.declInstance;
   }
   for (const [propName, propVal] of Object.entries(type.properties)) {
+    propVal.keyPath = keyPath + propName;
+    propVal.parent = type;
+    propVal.parentArray = parentArray;
     propVal.indexes?.forEach?.((idx) => {
       const compoundKeys = idx.compoundGetters?.map?.((fn) => {
         const propContainer = fn();
@@ -196,18 +207,55 @@ export function finalizeType(type: DBTypeStructure<any>, keyPath = "") {
       });
       if (compoundKeys) idx.compoundKeys = compoundKeys;
       delete idx.compoundGetters;
+      if (entity && idx.isPrimaryKey) {
+        if (entity.primaryKey) {
+          throw new Error(
+            `Entities can only have one primary key. It can be compound though.` +
+              ` Duplicates: ${entity.primaryKey.keyPath} and ${propVal.keyPath}`
+          );
+        }
+        entity.primaryKey = propVal;
+      }
     });
-    propVal.keyPath = keyPath + propName;
-    propVal.parent = type;
+    if (
+      propVal.indexes?.length &&
+      propVal.indexes.some((idx) => !idx.isPrimaryKey)
+    ) {
+      entity.indexedProps!.push(propVal);
+    }
+    const readParentProp = type.readProp;
+    propVal.readProp = readParentProp
+      ? (obj) => readParentProp(obj)[propName]
+      : (obj) => obj[propName];
+    propVal.writeProp = readParentProp
+      ? (obj, value) => (readParentProp(obj)[propName] = value)
+      : (obj, value) => (obj[propName] = value);
     if (propVal.properties) {
-      finalizeType(propVal, keyPath + propName + ".");
+      finalizeType(propVal, keyPath + propName + ".", entity, parentArray);
     } else if (propVal.item) {
       propVal.item.keyPath = keyPath + propName; // Do it the IndexedDB way.
       propVal.item.parent = propVal;
+      propVal.item.parentArray = propVal;
+      // Intentionally omit propVal.item.readProp and writeProp.
+      // Objects within arrays will start off on a new object. Detected by parentArray.
       if (propVal.item.properties) {
-        finalizeType(propVal.item, keyPath + propName + "[].");
+        finalizeType(propVal.item, keyPath + propName + "[].", entity, propVal);
       }
     }
+    if (propVal.indexedProps) {
+      // If a property is an entity, it has collected indexedProps on itself,
+      // But we want to interpret that as the parent entity should regard those nested props as indexed.
+      entity.indexedProps!.push(...propVal.indexedProps);
+    }
+  }
+  if (type.type === "entity") {
+    type.cmp = type.primaryKey
+      ? getEntityCmp(type as Required<DBTypeStructure<any>>)
+      : getObjectCmp(type);
+  } else if (type.type === "object") {
+    type.cmp = getObjectCmp(type);
+  } else if (type.type === "array") {
+    type.cmp = getArrayCmp(type.item!.cmp!);
   }
 }
 

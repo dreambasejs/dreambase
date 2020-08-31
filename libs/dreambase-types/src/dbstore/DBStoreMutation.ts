@@ -7,12 +7,13 @@ export type DBStoreInsertMutation = {
 
 export type DBStoreUpdateMutation = {
   type: "update";
+  key: any;
   updates: object;
 };
 
 export type DBStoreDeleteMutation = {
   type: "delete";
-  expr: Expression;
+  key: any;
 };
 
 export type DBStoreMutation =
