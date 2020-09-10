@@ -1,0 +1,29 @@
+{
+  "name": "dreambase-library",
+  "version": "0.0.1",
+  "description": "Library of dreambase-related code for use in other libraries.",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "esnext": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "jest",
+    "test:debug": "echo Open chrome://inspect and click DevTools link && node --inspect ../../node_modules/.bin/jest --runInBand",
+    "build": "tsc",
+    "clean": "rm -rf dist/ && rm -rf *.tsbuildinfo"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreambasejs/dreambase.git"
+  },
+  "keywords": [
+    "dreambase"
+  ],
+  "author": "David Fahlander",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/dreambasejs/dreambase/issues"
+  },
+  "homepage": "https://dreambasejs.com",
+  "dependencies": {}
+}
