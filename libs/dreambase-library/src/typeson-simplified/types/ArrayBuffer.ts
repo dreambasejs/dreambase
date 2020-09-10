@@ -8,11 +8,9 @@ export default {
     }),
     revive: ({ b64 }) => {
       const ba = b64decode(b64);
-      debugger;
-      if (ba.buffer.byteLength === ba.byteLength) {
-        return ba.buffer;
-      }
-      return ba.buffer.slice(ba.byteOffset, ba.byteOffset + ba.byteLength);
+      return ba.buffer.byteLength === ba.byteLength
+        ? ba.buffer
+        : ba.buffer.slice(ba.byteOffset, ba.byteOffset + ba.byteLength);
     },
   },
 };

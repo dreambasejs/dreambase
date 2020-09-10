@@ -1,6 +1,6 @@
 {
   "name": "dreambase-library",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Library of dreambase-related code for use in other libraries.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -10,7 +10,8 @@
     "test": "jest",
     "test:debug": "echo Open chrome://inspect and click DevTools link && node --inspect ../../node_modules/.bin/jest --runInBand",
     "build": "tsc",
-    "clean": "rm -rf dist/ && rm -rf *.tsbuildinfo"
+    "clean": "rm -rf dist/ && rm -rf *.tsbuildinfo",
+    "prepublish": "yarn build && yarn test"
   },
   "repository": {
     "type": "git",
