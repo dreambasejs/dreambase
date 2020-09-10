@@ -16,7 +16,7 @@ export default {
             b64,
           };
     },
-    revive: ({ n, b64 }: { $t: "bigint"; n?: boolean; b64: string }) =>
-      n ? -b64ToBigInt(b64) : b64ToBigInt(b64),
+    revive: ({ neg, b64 }: { $t: "bigint"; neg?: boolean; b64: string }) =>
+      neg ? -b64ToBigInt(b64) : b64ToBigInt(b64),
   },
 };

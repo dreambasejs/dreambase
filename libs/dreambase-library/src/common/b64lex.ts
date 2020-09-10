@@ -4,7 +4,7 @@ export function b64LexEncode(b: Uint8Array | Buffer | ArrayBuffer): string {
   return b64ToLex(b64encode(b));
 }
 
-export function b64LexDecode(b64Lex: string): Uint8Array {
+export function b64LexDecode(b64Lex: string): ArrayBuffer {
   return b64decode(lexToB64(b64Lex));
 }
 

@@ -25,7 +25,7 @@ export default [
         b:
           a.byteOffset === 0 && a.byteLength === a.buffer.byteLength
             ? a.buffer
-            : a.buffer.slice(a.byteOffset, a.byteLength - a.byteOffset),
+            : a.buffer.slice(a.byteOffset, a.byteOffset + a.byteLength),
       }),
       revive: ({ b }) => {
         const TypedArray = _global[typeName];

@@ -46,14 +46,17 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
     parse(tson: string, alternateChannel?: any) {
       let parent = null;
       let unescapeParentKeys: string[] = [];
-      let parentType = "";
 
       return JSON.parse(tson, function (key, value) {
         //
         // Parent Part
         //
+        const type = value.$t;
+        if (type) {
+          const typeDef = typeDefs[type];
+          value = typeDef ? typeDef.revive(value, alternateChannel) : value;
+        }
         if (value === parent) {
-          parent = null;
           // Do what the kid told us to
           if (unescapeParentKeys.length > 0) {
             // Unescape dollar props
@@ -62,30 +65,20 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
               value[k.substr(1)] = value[k];
               delete value[k];
             }
-            unescapeParentKeys = [];
           }
-          if (parentType) {
-            // Revive type
-            const typeDef = typeDefs[parentType];
-            value = typeDef ? typeDef.revive(value, alternateChannel) : value;
-            parentType = "";
-          }
+          unescapeParentKeys = [];
           return value;
         }
 
         //
         // Child part
         //
-        if (key[0] === "$") {
+        if (key[0] === "$" && key !== "$t") {
           parent = this;
-          if (key === "$t") {
-            // Tell parent to revive this type
-            parentType = value;
-          } else {
-            unescapeParentKeys.push(key);
-          }
-          return value;
+          unescapeParentKeys.push(key);
         }
+
+        return value;
       });
     },
   };
