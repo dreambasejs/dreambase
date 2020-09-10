@@ -1,6 +1,6 @@
 {
   "name": "dreambase-library",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Library of dreambase-related code for use in other libraries.",
   "main": "dist/index.js",
   "module": "dist/index.js",
