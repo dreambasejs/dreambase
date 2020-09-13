@@ -1,6 +1,6 @@
 {
   "name": "universal-imports",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Library of functions and classes that will be backed differently depending on environment.",
   "type": "module",
   "typings": "./index.d.ts",
