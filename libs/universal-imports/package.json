@@ -1,0 +1,40 @@
+{
+  "name": "universal-imports",
+  "version": "1.0.0",
+  "description": "Library of functions and classes that will be backed differently depending on environment.",
+  "type": "module",
+  "typings": "./index.d.ts",
+  "main": "./index.cjs",
+  "module": "./index.mjs",
+  "browser": {
+    "./index-node.cjs": "./index-browser.cjs",
+    "./index-node.mjs": "./index-browser.mjs"
+  },
+  "exports": {
+    "node": {
+      "import": "./index.mjs",
+      "require": "./index.cjs"
+    },
+    "default": {
+      "import": "./index-browser.mjs",
+      "require": "./index-browser.cjs"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dreambasejs/dreambase.git"
+  },
+  "keywords": [
+    "isomorphic"
+  ],
+  "author": "David Fahlander",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/dreambasejs/dreambase/issues"
+  },
+  "homepage": "https://dreambasejs.com",
+  "dependencies": {
+    "@types/node-fetch": "^2.5.7",
+    "node-fetch": "^2.6.1"
+  }
+}
