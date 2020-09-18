@@ -26,8 +26,12 @@ describe("test-stringify-plain", () => {
     expect(TSON.parse("true")).toStrictEqual(true);
   });
   it("should stringify null", () => {
-    expect(TSON.stringify({ foo: null })).toBe(JSON.stringify({ foo: null }));
+    const objWithNullValue = { foo: null };
+    const tson = TSON.stringify(objWithNullValue);
+    expect(tson).toBe(JSON.stringify(objWithNullValue));
     expect(TSON.stringify(null)).toBe("null");
+    expect(TSON.parse("null")).toBeNull();
+    expect(TSON.parse(tson)).toStrictEqual(objWithNullValue);
   });
   it("should not stringify undefined", () => {
     expect(TSON.stringify({ foo: null, bar: undefined })).toBe(

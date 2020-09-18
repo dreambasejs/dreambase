@@ -51,7 +51,7 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
         //
         // Parent Part
         //
-        const type = value.$t;
+        const type = value?.$t;
         if (type) {
           const typeDef = typeDefs[type];
           value = typeDef ? typeDef.revive(value, alternateChannel) : value;
