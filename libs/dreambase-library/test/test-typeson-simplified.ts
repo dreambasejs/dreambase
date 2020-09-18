@@ -25,6 +25,15 @@ describe("test-stringify-plain", () => {
     expect(TSON.parse("false")).toStrictEqual(false);
     expect(TSON.parse("true")).toStrictEqual(true);
   });
+  it("should stringify null", () => {
+    expect(TSON.stringify({ foo: null })).toBe(JSON.stringify({ foo: null }));
+    expect(TSON.stringify(null)).toBe("null");
+  });
+  it("should not stringify undefined", () => {
+    expect(TSON.stringify({ foo: null, bar: undefined })).toBe(
+      JSON.stringify({ foo: null, bar: undefined })
+    );
+  });
   it("should escape props with leading $", () => {
     // Escaping of props named "$t":
     const input = { $t: "fakeType" };

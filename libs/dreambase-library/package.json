@@ -6,6 +6,9 @@
   "module": "dist/index.js",
   "esnext": "dist/index.js",
   "type": "module",
+  "engines": {
+    "node": ">=14.8.0"
+  },
   "scripts": {
     "test": "jest",
     "test:debug": "echo Open chrome://inspect and click DevTools link && node --inspect ../../node_modules/.bin/jest --runInBand",

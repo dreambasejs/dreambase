@@ -97,7 +97,8 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
         return typeDefs.bigint;
       case "object":
       case "function": {
-        // "object", "function"
+        // "object", "function", null
+        if (realVal === null) return null;
         const proto = Object.getPrototypeOf(realVal);
         if (!proto) return ObjectDef;
         let typeDef = protoMap.get(proto);
