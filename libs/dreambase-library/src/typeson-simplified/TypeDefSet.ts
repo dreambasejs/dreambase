@@ -24,5 +24,5 @@ export type TypeDefSet = {
   BigUint64Array?: TypeDef<BigUint64Array>;
 
   // Extentable with other types, custom, DOM or node types such as Blob, Buffer etc.
-  [TypeName: string]: TypeDef | undefined | null;
+  [TypeName: string]: TypeDef<any, any> | undefined | null;
 };

@@ -5,8 +5,9 @@ import SetDef from "../types/Set.js";
 import MapDef from "../types/Map.js";
 import TypedArraysDefs from "../types/TypedArray.js";
 import ArrayBufferDef from "../types/ArrayBuffer.js";
+import { TypeDefSet } from "../TypeDefSet.js";
 
-export default {
+const builtin: TypeDefSet = {
   ...bigintDef,
   ...SpecialNumberDef,
   ...DateDef,
@@ -15,3 +16,5 @@ export default {
   ...TypedArraysDefs,
   ...ArrayBufferDef,
 };
+
+export default builtin;

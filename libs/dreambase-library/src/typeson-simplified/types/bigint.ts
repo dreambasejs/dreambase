@@ -1,6 +1,7 @@
 import { b64ToBigInt, bigint2B64 } from "../../common/bigint-conversion.js";
+import { TypeDefSet } from "../TypeDefSet.js";
 
-export default {
+const bigIntDef: TypeDefSet = {
   bigint: {
     replace: (realVal: bigint) => {
       const negative = realVal < 0;
@@ -20,3 +21,5 @@ export default {
       neg ? -b64ToBigInt(b64) : b64ToBigInt(b64),
   },
 };
+
+export default bigIntDef;
