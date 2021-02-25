@@ -6,7 +6,7 @@ import { TypesonSimplified } from "./TypesonSimplified.js";
 export function Bison(...typeDefsInputs: TypeDefSet[]) {
   const tson = TypesonSimplified(builtin, BisonBinaryTypes, ...typeDefsInputs);
   return {
-    blobify(value: any): Blob {
+    toBinary(value: any): Blob {
       const [blob, json] = this.stringify(value);
       const lenBuf = new ArrayBuffer(4);
       new DataView(lenBuf).setUint32(0, (blob as Blob).size);
@@ -42,7 +42,7 @@ export function Bison(...typeDefsInputs: TypeDefSet[]) {
       return tson.parse(json, arrayBuffers);
     },
 
-    async read<T = any>(blob: Blob): Promise<T> {
+    async fromBinary<T = any>(blob: Blob): Promise<T> {
       const len = new DataView(
         await readBlobBinary(blob.slice(0, 4))
       ).getUint32(0);
