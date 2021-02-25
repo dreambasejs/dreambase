@@ -1,5 +1,3 @@
-import { parse } from "path";
-import { Stream, Duplex } from "stream";
 import { BisonBinaryTypesNode } from "./BisonBinaryTypesNode.js";
 import builtin from "./presets/builtin.js";
 import { TypeDefSet } from "./TypeDefSet.js";
@@ -12,18 +10,14 @@ export function BisonForNode(...typeDefsInputs: TypeDefSet[]) {
     ...typeDefsInputs
   );
   return {
-    streamify(value: any): Stream {
-      const [binData, json] = this.split(value);
-      const stream = new Duplex();
-      const lenBuf = new ArrayBuffer(4);
-      new DataView(lenBuf).setUint32(0, binData.byteLength);
-      stream.push(lenBuf);
-      stream.push(binData);
-      stream.push(json, "utf-8");
-      return stream;
+    toBinary(value: any): Buffer {
+      const [binData, json] = this.stringify(value);
+      const lenBuf = Buffer.alloc(4);
+      lenBuf.writeUInt32BE(binData.byteLength, 0);
+      return Buffer.concat([lenBuf, binData, Buffer.from(json, "utf-8")]);
     },
 
-    split(value: any): [Buffer, string] {
+    stringify(value: any): [Buffer, string] {
       const binaries: Buffer[] = [];
       const json = tson.stringify(value, binaries);
       const buf = Buffer.concat(
@@ -36,7 +30,7 @@ export function BisonForNode(...typeDefsInputs: TypeDefSet[]) {
       return [buf, json];
     },
 
-    async unsplit<T = any>(json: string, binData: Buffer): Promise<T> {
+    parse<T = any>(json: string, binData: Buffer): T {
       let pos = 0;
       const buffers: Buffer[] = [];
       while (pos < binData.byteLength) {
@@ -49,21 +43,11 @@ export function BisonForNode(...typeDefsInputs: TypeDefSet[]) {
       return tson.parse(json, buffers);
     },
 
-    async parse<T = any>(stream: Stream): Promise<T> {
-      const buf = await streamToBuffer(stream);
+    fromBinary<T = any>(buf: Buffer): T {
       const len = buf.readUInt32BE(0);
       const binData = buf.slice(4, len + 4);
       const json = buf.slice(len + 4).toString("utf-8");
-      return await this.unsplit(json, binData);
+      return this.parse(json, binData);
     },
   };
-}
-
-function streamToBuffer(stream: Stream): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    let buffers: Buffer[] = [];
-    stream.on("error", reject);
-    stream.on("data", (data) => buffers.push(data));
-    stream.on("end", () => resolve(Buffer.concat(buffers)));
-  });
 }

@@ -7,12 +7,12 @@ export function Bison(...typeDefsInputs: TypeDefSet[]) {
   const tson = TypesonSimplified(builtin, BisonBinaryTypes, ...typeDefsInputs);
   return {
     blobify(value: any): Blob {
-      const [blob, json] = this.split(value);
+      const [blob, json] = this.stringify(value);
       const lenBuf = new ArrayBuffer(4);
       new DataView(lenBuf).setUint32(0, (blob as Blob).size);
       return new Blob([lenBuf, blob, json]);
     },
-    split(value: any): [Blob, string] {
+    stringify(value: any): [Blob, string] {
       const binaries: (ArrayBuffer | Blob)[] = [];
       const json = tson.stringify(value, binaries);
       const blob = new Blob(
@@ -27,7 +27,7 @@ export function Bison(...typeDefsInputs: TypeDefSet[]) {
       );
       return [blob, json];
     },
-    async unsplit<T = any>(json: string, binData: Blob): Promise<T> {
+    async parse<T = any>(json: string, binData: Blob): Promise<T> {
       let pos = 0;
       const arrayBuffers: ArrayBuffer[] = [];
       const buf = await readBlobBinary(binData);
@@ -42,13 +42,13 @@ export function Bison(...typeDefsInputs: TypeDefSet[]) {
       return tson.parse(json, arrayBuffers);
     },
 
-    async parse<T = any>(blob: Blob): Promise<T> {
+    async read<T = any>(blob: Blob): Promise<T> {
       const len = new DataView(
         await readBlobBinary(blob.slice(0, 4))
       ).getUint32(0);
       const binData = blob.slice(4, len + 4);
       const json = await readBlob(blob.slice(len + 4));
-      return await this.unsplit(json, binData);
+      return await this.parse(json, binData);
     },
   };
 }

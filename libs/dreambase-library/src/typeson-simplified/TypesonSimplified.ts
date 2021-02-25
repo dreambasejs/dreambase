@@ -26,7 +26,10 @@ const ObjectDef = {
 };
 
 export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
-  const typeDefs = typeDefsInputs.reduce((p, c) => ({ ...p, ...c }), {});
+  const typeDefs = typeDefsInputs.reduce(
+    (p, c) => ({ ...p, ...c }),
+    typeDefsInputs.reduce((p, c) => ({ ...c, ...p }), {})
+  );
   const protoMap = new WeakMap<object, TypeDef | null>();
   return {
     stringify(value: any, alternateChannel?: any, space?: number): string {

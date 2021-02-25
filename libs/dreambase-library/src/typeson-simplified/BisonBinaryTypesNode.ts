@@ -7,7 +7,7 @@ export class FakeBlob {
 export const BisonBinaryTypesNode: TypeDefSet = {
   BisonArrayBuffer: {
     test: (buf: Buffer | ArrayBuffer, toStringTag) =>
-      toStringTag === "Buffer" || toStringTag === "ArrayBuffer",
+      buf instanceof Buffer || toStringTag === "ArrayBuffer",
     replace: (buf: Buffer | ArrayBuffer, altChannel: Buffer[]) => {
       const i = altChannel.length;
       altChannel.push("buffer" in buf ? buf : Buffer.from(buf));
