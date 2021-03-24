@@ -63,7 +63,7 @@ export function readBlob(blob: Blob): Promise<string> {
   });
 }
 
-function readBlobBinary(blob: Blob): Promise<ArrayBuffer> {
+export function readBlobBinary(blob: Blob): Promise<ArrayBuffer> {
   return new Promise<ArrayBuffer>((resolve, reject) => {
     const reader = new FileReader();
     reader.onabort = (ev) => reject(new Error("file read aborted"));
