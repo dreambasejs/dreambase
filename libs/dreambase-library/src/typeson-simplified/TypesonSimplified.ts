@@ -9,9 +9,12 @@ function getToStringTag(val: any) {
 function escapeDollarProps(value: any) {
   const keys = Object.keys(value);
   let dollarKeys: string[] | null = null;
-  for (let i = 0, l = keys.length; i < l; ++i)
-    if (keys[i][0] === "$")
-      dollarKeys = (dollarKeys || ([] as string[])).concat(keys[i]);
+  for (let i = 0, l = keys.length; i < l; ++i) {
+    if (keys[i][0] === "$") {
+      dollarKeys = dollarKeys || [];
+      dollarKeys.push(keys[i]);
+    }
+  }
   if (!dollarKeys) return value;
   const clone = { ...value };
   for (const k of dollarKeys) {
