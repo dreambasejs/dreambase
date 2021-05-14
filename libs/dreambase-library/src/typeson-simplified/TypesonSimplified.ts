@@ -42,7 +42,9 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
         function (key: string) {
           const realVal = this[key];
           const typeDef = getTypeDef(realVal);
-          return typeDef ? typeDef.replace(realVal, alternateChannel) : realVal;
+          return typeDef
+            ? typeDef.replace(realVal, alternateChannel, typeDefs)
+            : realVal;
         },
         space
       );
@@ -60,7 +62,9 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
         const type = value?.$t;
         if (type) {
           const typeDef = typeDefs[type];
-          value = typeDef ? typeDef.revive(value, alternateChannel) : value;
+          value = typeDef
+            ? typeDef.revive(value, alternateChannel, typeDefs)
+            : value;
         }
         if (value === parent) {
           // Do what the kid told us to

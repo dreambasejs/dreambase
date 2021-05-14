@@ -5,10 +5,10 @@ export default {
   ArrayBuffer: {
     replace: (ab: ArrayBuffer) => ({
       $t: "ArrayBuffer",
-      b64: b64LexEncode(ab),
+      b: b64LexEncode(ab),
     }),
-    revive: ({ b64 }) => {
-      const ba = b64LexDecode(b64);
+    revive: ({ b }) => {
+      const ba = b64LexDecode(b);
       return ba.buffer.byteLength === ba.byteLength
         ? ba.buffer
         : ba.buffer.slice(ba.byteOffset, ba.byteOffset + ba.byteLength);

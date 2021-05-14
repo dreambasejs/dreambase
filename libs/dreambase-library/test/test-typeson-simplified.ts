@@ -160,49 +160,9 @@ describe("test-stringify-complex", () => {
     expect(tson).toBe(
       JSON.stringify({
         $t: "Float64Array",
-        b: {
-          $t: "ArrayBuffer",
-          b64: "mpmZmZmZM0A=",
-        },
+        b: "bebPbPbPCp0-",
       })
     );
     expect(TSON.parse(tson)).toStrictEqual(fa);
-  });
-});
-
-describe("test-alternate-channel", () => {
-  const TSON = TypesonSimplified({
-    ArrayBuffer2: {
-      test: (val, toStringTag) => toStringTag === "ArrayBuffer",
-      replace: (val: ArrayBuffer, altChannel: ArrayBuffer[]) => {
-        const pos = altChannel.length;
-        altChannel.push(val);
-        return { $t: "ArrayBuffer2", i: pos };
-      },
-      revive: ({ i }, altChannel: ArrayBuffer[]) => {
-        return altChannel[i];
-      },
-    },
-    ...builtIn,
-  });
-
-  it("should stringify Float64Array using alternate channel", () => {
-    const fa = new Float64Array([19.6]);
-    const arrayBuffers = [];
-    const tson = TSON.stringify(fa, arrayBuffers);
-    expect(arrayBuffers.length).toBe(1);
-    expect(arrayBuffers[0]).toStrictEqual(new Float64Array([19.6]).buffer);
-    expect(tson).toBe(
-      JSON.stringify({
-        $t: "Float64Array",
-        b: {
-          $t: "ArrayBuffer2",
-          i: 0,
-        },
-      })
-    );
-    expect(TSON.parse(tson, arrayBuffers)).toStrictEqual(
-      new Float64Array([19.6])
-    );
   });
 });

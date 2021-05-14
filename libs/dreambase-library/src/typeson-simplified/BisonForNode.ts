@@ -18,13 +18,13 @@ export function BisonForNode(...typeDefsInputs: TypeDefSet[]) {
     },
 
     stringify(value: any): [Buffer, string] {
-      const binaries: Buffer[] = [];
+      const binaries: ArrayBuffer[] = [];
       const json = tson.stringify(value, binaries);
       const buf = Buffer.concat(
         binaries.map((b) => {
           const lenBuf = new ArrayBuffer(4);
           new DataView(lenBuf).setUint32(0, b.byteLength);
-          return Buffer.concat([new Uint8Array(lenBuf), b]);
+          return Buffer.concat([new Uint8Array(lenBuf), new Uint8Array(b)]);
         })
       );
       return [buf, json];
@@ -32,11 +32,11 @@ export function BisonForNode(...typeDefsInputs: TypeDefSet[]) {
 
     parse<T = any>(json: string, binData: Buffer): T {
       let pos = 0;
-      const buffers: Buffer[] = [];
+      const buffers: ArrayBuffer[] = [];
       while (pos < binData.byteLength) {
         const len = binData.readUInt32BE(pos);
         pos += 4;
-        const dataBlob = binData.slice(pos, pos + len);
+        const dataBlob = binData.slice(pos, pos + len).buffer;
         pos += len;
         buffers.push(dataBlob);
       }

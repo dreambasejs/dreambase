@@ -3,17 +3,23 @@ import { BisonForNode } from "../src/typeson-simplified/BisonForNode.js";
 
 describe("test-bison", () => {
   it("should convert object to binary and back", () => {
+    const blobbab = new Uint8Array(2);
+    blobbab[0] = 68;
+    blobbab[1] = 70;
     const obj = {
       foo: "Bar",
-      ab: Buffer.alloc(3),
+      ab: new ArrayBuffer(3),
       time: new Date(),
-      b: new FakeBlob(Buffer.alloc(2, 65), "text/plain"),
+      b: new FakeBlob(
+        blobbab.buffer.slice(blobbab.byteOffset, blobbab.byteLength),
+        "text/plain"
+      ),
     };
     const BSON = BisonForNode();
     const buf = BSON.toBinary(obj);
-    //const [b, json] = BSON.stringify(obj);
-    //debugger;
     const objBack = BSON.fromBinary(buf);
-    expect(objBack).toStrictEqual(obj);
+    const [b, json] = BSON.stringify(obj);
+    debugger;
+    expect(obj).toStrictEqual(objBack);
   });
 });
