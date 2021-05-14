@@ -1,5 +1,7 @@
 import { _global } from "../../common/_global.js";
 
+import ArrayBufferSpec from "./ArrayBuffer.js";
+
 export default [
   "Int8Array",
   "Uint8Array",
@@ -20,16 +22,22 @@ export default [
       // Replace passes the the typed array into $t, buffer so that
       // the ArrayBuffer typedef takes care of further handling of the buffer:
       // {$t:"Uint8Array",buffer:{$t:"ArrayBuffer",idx:0}}
+      // CHANGED ABOVE! Now shortcutting that for more sparse format of the typed arrays
+      // to contain the b64 property directly.
       replace: (a: ArrayBufferView) => ({
         $t: typeName,
-        b:
+        b64: ArrayBufferSpec.ArrayBuffer.replace(
           a.byteOffset === 0 && a.byteLength === a.buffer.byteLength
             ? a.buffer
-            : a.buffer.slice(a.byteOffset, a.byteOffset + a.byteLength),
+            : a.buffer.slice(a.byteOffset, a.byteOffset + a.byteLength)
+        ).b64,
       }),
-      revive: ({ b }) => {
+      revive: ({ b64 }) => {
         const TypedArray = _global[typeName];
-        return TypedArray && new TypedArray(b);
+        return (
+          TypedArray &&
+          new TypedArray(ArrayBufferSpec.ArrayBuffer.revive({ b64 }))
+        );
       },
     },
   }),

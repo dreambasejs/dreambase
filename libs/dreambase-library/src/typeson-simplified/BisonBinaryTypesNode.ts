@@ -1,26 +1,25 @@
+import { FakeBlob } from "./FakeBlob.js";
 import { TypeDefSet } from "./TypeDefSet.js";
-
-export class FakeBlob {
-  constructor(public buf: Buffer, public mimeType?: string) {}
-}
 
 export const BisonBinaryTypesNode: TypeDefSet = {
   BisonArrayBuffer: {
     test: (buf: Buffer | ArrayBuffer, toStringTag) =>
       buf instanceof Buffer || toStringTag === "ArrayBuffer",
-    replace: (buf: Buffer | ArrayBuffer, altChannel: Buffer[]) => {
+    replace: (buf: Buffer | ArrayBuffer, altChannel: ArrayBuffer[]) => {
       const i = altChannel.length;
-      altChannel.push("buffer" in buf ? buf : Buffer.from(buf));
+      altChannel.push(
+        "buffer" in buf ? buf.buffer.slice(buf.byteOffset, buf.byteLength) : buf
+      );
       return {
         $t: "BisonArrayBuffer",
         i,
       };
     },
-    revive: ({ i }, altChannel) => altChannel[i] as Buffer,
+    revive: ({ i }, altChannel: ArrayBuffer[]) => altChannel[i],
   },
   BisonBlob: {
     test: (blob: FakeBlob) => blob instanceof FakeBlob,
-    replace: (blob: FakeBlob, altChannel: Buffer[]) => {
+    replace: (blob: FakeBlob, altChannel: ArrayBuffer[]) => {
       const i = altChannel.length;
       altChannel.push(blob.buf);
       return {
@@ -29,7 +28,7 @@ export const BisonBinaryTypesNode: TypeDefSet = {
         i,
       };
     },
-    revive: ({ i, mimeType }, altChannel: Buffer[]) =>
+    revive: ({ i, mimeType }, altChannel: ArrayBuffer[]) =>
       new FakeBlob(altChannel[i], mimeType),
   },
 };

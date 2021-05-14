@@ -6,6 +6,7 @@ import MapDef from "../types/Map.js";
 import TypedArraysDefs from "../types/TypedArray.js";
 import ArrayBufferDef from "../types/ArrayBuffer.js";
 import { TypeDefSet } from "../TypeDefSet.js";
+import FakeBlob from "../types/FakeBlob.js";
 
 const builtin: TypeDefSet = {
   ...bigintDef,
@@ -15,6 +16,7 @@ const builtin: TypeDefSet = {
   ...MapDef,
   ...TypedArraysDefs,
   ...ArrayBufferDef,
+  ...FakeBlob,
 };
 
 export default builtin;

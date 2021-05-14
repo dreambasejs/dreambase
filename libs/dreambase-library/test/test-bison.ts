@@ -1,4 +1,4 @@
-import { FakeBlob } from "../src/typeson-simplified/BisonBinaryTypesNode.js";
+import { FakeBlob } from "../src/typeson-simplified/FakeBlob.js";
 import { BisonForNode } from "../src/typeson-simplified/BisonForNode.js";
 
 describe("test-bison", () => {
