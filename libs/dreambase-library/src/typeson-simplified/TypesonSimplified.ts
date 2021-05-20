@@ -94,17 +94,12 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
   };
 
   function getTypeDef(realVal: any) {
+    const type = typeof realVal;
     switch (typeof realVal) {
-      case "string":
-      case "boolean":
-      case "undefined":
-        return null;
       case "number":
         return isNaN(realVal) || realVal === Infinity || realVal === -Infinity
           ? typeDefs.SpecialNumber
-          : null;
-      case "bigint":
-        return typeDefs.bigint;
+          : typeDefs.NormalNumber;
       case "object":
       case "function": {
         // "object", "function", null
@@ -130,8 +125,8 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
         protoMap.set(proto, typeDef);
         return typeDef;
       }
-      case "symbol":
-        return typeDefs.symbol;
+      default:
+        return typeDefs[type];
     }
   }
 }

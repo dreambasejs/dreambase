@@ -1,10 +1,13 @@
 import { TypeDef } from "./TypeDef.js";
 
 export type TypeDefSet = {
-  // Javascript built-in types that are not naturally JSON stringifyable:
+  string?: TypeDef<string>;
+  boolean?: TypeDef<boolean>;
+  undefined?: TypeDef<undefined>;
   bigint?: TypeDef<bigint>;
-  function?: TypeDef<Function>;
   symbol?: TypeDef<Symbol>;
+  function?: TypeDef<Function>;
+  NormalNumber?: TypeDef<number>;
   SpecialNumber?: TypeDef<number>;
   ArrayBuffer?: TypeDef<ArrayBuffer>;
   Date?: TypeDef<Date>;
