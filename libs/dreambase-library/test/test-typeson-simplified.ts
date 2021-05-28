@@ -91,20 +91,19 @@ describe("test-stringify-specials", () => {
       JSON.stringify([
         {
           $t: "bigint",
-          b64: "AA==",
+          v: "0",
         },
         {
           $t: "bigint",
-          b64: "AQ==",
+          v: "1",
         },
         {
           $t: "bigint",
-          neg: true,
-          b64: "AQ==",
+          v: "-1",
         },
         {
           $t: "bigint",
-          b64: "EA==",
+          v: "16",
         },
         {
           $t: "bigint",
