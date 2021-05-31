@@ -95,7 +95,7 @@ const DECODE_TABLE = {
   x: "8",
   y: "9",
   z: "+",
-  "~": "/",
+  "|": "/",
 };
 
 const ENCODE_TABLE = {};
