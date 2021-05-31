@@ -36,7 +36,6 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
   const protoMap = new WeakMap<object, TypeDef | null>();
   return {
     stringify(value: any, alternateChannel?: any, space?: number): string {
-      const nonStringifyables = [];
       const json = JSON.stringify(
         value,
         function (key: string) {
