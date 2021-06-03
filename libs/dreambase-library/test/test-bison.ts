@@ -19,7 +19,6 @@ describe("test-bison", () => {
     const buf = BSON.toBinary(obj);
     const objBack = BSON.fromBinary(buf);
     const [b, json] = BSON.stringify(obj);
-    debugger;
     expect(obj).toStrictEqual(objBack);
   });
 });
