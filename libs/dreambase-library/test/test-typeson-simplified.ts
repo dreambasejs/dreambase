@@ -125,11 +125,11 @@ describe("test-stringify-complex", () => {
       JSON.stringify({
         foo: {
           $t: "Date",
-          v: 0,
+          date: "1970-01-01T00:00:00.000Z",
         },
         bar: {
           $t: "Date",
-          v: { $t: "SpecialNumber", v: "NaN" },
+          date: "NaN",
         },
       })
     );
