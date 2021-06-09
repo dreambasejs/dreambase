@@ -9,7 +9,7 @@ export const BisonBinaryTypesNode: TypeDefSet = {
       altChannel.push(blob.buf);
       return {
         $t: "Blob",
-        mimeType: blob.mimeType,
+        mimeType: blob.type,
         i,
       };
     },

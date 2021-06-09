@@ -1,3 +1,3 @@
 export class FakeBlob {
-  constructor(public buf: ArrayBuffer, public mimeType?: string) {}
+  constructor(public buf: ArrayBuffer, public type?: string) {}
 }
