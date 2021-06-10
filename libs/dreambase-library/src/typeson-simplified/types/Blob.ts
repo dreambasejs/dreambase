@@ -1,9 +1,7 @@
+import { b64decode, b64encode } from "../../common/base64.js";
 import { FakeBlob } from "../FakeBlob.js";
 import { readBlobSync } from "../readBlobSync.js";
-import {
-  arrayBuffer2String,
-  string2ArrayBuffer,
-} from "../string2arraybuffer.js";
+import { string2ArrayBuffer } from "../string2arraybuffer.js";
 
 export default {
   Blob: {
@@ -13,15 +11,15 @@ export default {
       $t: "Blob",
       v:
         blob instanceof FakeBlob
-          ? arrayBuffer2String(blob.buf)
-          : readBlobSync(blob),
+          ? b64encode(blob.buf)
+          : b64encode(string2ArrayBuffer(readBlobSync(blob))),
       type: blob.type,
     }),
     revive: ({ type, v }) => {
-      const ab = string2ArrayBuffer(v);
+      const ab = b64decode(v);
       return typeof Blob !== undefined
         ? new Blob([ab])
-        : new FakeBlob(ab, type);
+        : new FakeBlob(ab.buffer, type);
     },
   },
 };

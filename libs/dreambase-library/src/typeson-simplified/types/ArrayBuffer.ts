@@ -1,16 +1,16 @@
-import {
-  arrayBuffer2String,
-  string2ArrayBuffer,
-} from "../string2arraybuffer.js";
+import { b64LexDecode, b64LexEncode } from "../../common/b64lex.js";
 
 export default {
   ArrayBuffer: {
     replace: (ab: ArrayBuffer) => ({
       $t: "ArrayBuffer",
-      v: arrayBuffer2String(ab),
+      v: b64LexEncode(ab),
     }),
     revive: ({ v }) => {
-      return string2ArrayBuffer(v);
+      const ba = b64LexDecode(v);
+      return ba.buffer.byteLength === ba.byteLength
+        ? ba.buffer
+        : ba.buffer.slice(ba.byteOffset, ba.byteOffset + ba.byteLength);
     },
   },
 };

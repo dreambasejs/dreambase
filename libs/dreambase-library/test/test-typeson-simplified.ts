@@ -155,6 +155,7 @@ describe("test-stringify-complex", () => {
     const fa2 = new Float64Array([19.6]);
     expect(fa2).toStrictEqual(fa); // Just verifying that jest supports this.
     const tson = TSON.stringify(fa);
-    expect(TSON.parse(tson)).toStrictEqual(fa2);
+    const back = TSON.parse(tson);
+    expect(back).toStrictEqual(fa2);
   });
 });
