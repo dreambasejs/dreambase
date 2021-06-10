@@ -38,7 +38,6 @@ export default [
             typeDefs
           ).v,
         };
-        debugger;
         return result;
       },
       revive: (
