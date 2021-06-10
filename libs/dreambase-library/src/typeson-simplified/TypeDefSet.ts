@@ -3,12 +3,11 @@ import { TypeDef } from "./TypeDef.js";
 export type TypeDefSet = {
   string?: TypeDef<string>;
   boolean?: TypeDef<boolean>;
+  number?: TypeDef<number>;
   undefined?: TypeDef<undefined>;
   bigint?: TypeDef<bigint>;
   symbol?: TypeDef<Symbol>;
   function?: TypeDef<Function>;
-  NormalNumber?: TypeDef<number>;
-  SpecialNumber?: TypeDef<number>;
   ArrayBuffer?: TypeDef<ArrayBuffer>;
   Date?: TypeDef<Date>;
   Map?: TypeDef<Map<any, any>>;

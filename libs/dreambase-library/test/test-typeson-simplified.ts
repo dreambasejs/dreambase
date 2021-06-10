@@ -61,17 +61,17 @@ describe("test-stringify-specials", () => {
   const TSON = TypesonSimplified(builtIn);
   it("should stringify NaN", () => {
     const tson = TSON.stringify(NaN);
-    expect(tson).toBe(JSON.stringify({ $t: "SpecialNumber", v: "NaN" }));
+    expect(tson).toBe(JSON.stringify({ $t: "number", v: "NaN" }));
     expect(TSON.parse(tson)).toBeNaN();
   });
   it("should stringify Infinity", () => {
     const tson = TSON.stringify(Infinity);
-    expect(tson).toBe(JSON.stringify({ $t: "SpecialNumber", v: "Infinity" }));
+    expect(tson).toBe(JSON.stringify({ $t: "number", v: "Infinity" }));
     expect(TSON.parse(tson)).toBe(Infinity);
   });
   it("should stringify NegativeInfinity", () => {
     const tson = TSON.stringify(-Infinity);
-    expect(tson).toBe(JSON.stringify({ $t: "SpecialNumber", v: "-Infinity" }));
+    expect(tson).toBe(JSON.stringify({ $t: "number", v: "-Infinity" }));
     expect(TSON.parse(tson)).toBe(-Infinity);
   });
   it("should stringify bigints", () => {
@@ -107,7 +107,7 @@ describe("test-stringify-specials", () => {
         },
         {
           $t: "bigint",
-          b64: "q80SNAAAmHaIiHd2",
+          v: "53169852434298556854127064950",
         },
       ])
     );
@@ -125,11 +125,11 @@ describe("test-stringify-complex", () => {
       JSON.stringify({
         foo: {
           $t: "Date",
-          date: "1970-01-01T00:00:00.000Z",
+          v: "1970-01-01T00:00:00.000Z",
         },
         bar: {
           $t: "Date",
-          date: "NaN",
+          v: "NaN",
         },
       })
     );
@@ -144,9 +144,7 @@ describe("test-stringify-complex", () => {
     expect(tson).toBe(
       JSON.stringify({
         $t: "Map",
-        v: [
-          ["foo", { foo: [1, 2, 3, { $t: "SpecialNumber", v: "Infinity" }] }],
-        ],
+        v: [["foo", { foo: [1, 2, 3, { $t: "number", v: "Infinity" }] }]],
       })
     );
     expect(TSON.parse(tson)).toStrictEqual(m);
@@ -154,14 +152,9 @@ describe("test-stringify-complex", () => {
 
   it("should stringify Float64Array", () => {
     const fa = new Float64Array([19.6]);
-    expect(new Float64Array([19.6])).toStrictEqual(fa);
+    const fa2 = new Float64Array([19.6]);
+    expect(fa2).toStrictEqual(fa); // Just verifying that jest supports this.
     const tson = TSON.stringify(fa);
-    expect(tson).toBe(
-      JSON.stringify({
-        $t: "Float64Array",
-        b: "bebPbPbPCp0-",
-      })
-    );
-    expect(TSON.parse(tson)).toStrictEqual(fa);
+    expect(TSON.parse(tson)).toStrictEqual(fa2);
   });
 });

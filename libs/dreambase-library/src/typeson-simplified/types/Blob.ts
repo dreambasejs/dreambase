@@ -1,26 +1,27 @@
-import { b64decode, b64encode } from "../../common/base64.js";
 import { FakeBlob } from "../FakeBlob.js";
 import { readBlobSync } from "../readBlobSync.js";
-import { string2ArrayBuffer } from "../string2arraybuffer.js";
+import {
+  arrayBuffer2String,
+  string2ArrayBuffer,
+} from "../string2arraybuffer.js";
 
 export default {
   Blob: {
-    test: (blob: FakeBlob, toStringTag: string) =>
+    test: (blob: Blob | FakeBlob, toStringTag: string) =>
       toStringTag === "Blob" || blob instanceof FakeBlob,
-    replace: (blob: FakeBlob | Blob) => ({
+    replace: (blob: Blob | FakeBlob) => ({
       $t: "Blob",
-      mimeType: blob.type,
-      data: b64encode(
+      v:
         blob instanceof FakeBlob
-          ? blob.buf
-          : string2ArrayBuffer(readBlobSync(blob))
-      ),
+          ? arrayBuffer2String(blob.buf)
+          : readBlobSync(blob),
+      type: blob.type,
     }),
-    revive: ({ mimeType, data }) => {
-      const ab = b64decode(data);
+    revive: ({ type, v }) => {
+      const ab = string2ArrayBuffer(v);
       return typeof Blob !== undefined
         ? new Blob([ab])
-        : new FakeBlob(ab, mimeType);
+        : new FakeBlob(ab, type);
     },
   },
 };

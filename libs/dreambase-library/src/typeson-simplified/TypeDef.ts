@@ -1,7 +1,7 @@
 import { TypeDefSet } from "./TypeDefSet.js";
 
 export interface TypeDef<T = unknown, TReplaced = unknown> {
-  test?: (val: T, toStringTag: string) => boolean | "cache";
+  test?: (val: T, toStringTag: string) => boolean;
   replace: (
     val: T,
     altChannel: any,

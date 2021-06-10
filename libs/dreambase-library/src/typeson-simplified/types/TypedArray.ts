@@ -26,26 +26,30 @@ export default [
       replace: (
         a: ArrayBufferView,
         _: any,
-        typeDefs: { ArrayBuffer: TypeDef<ArrayBuffer, { b: string }> }
-      ) => ({
-        $t: typeName,
-        b: typeDefs.ArrayBuffer.replace(
-          a.byteOffset === 0 && a.byteLength === a.buffer.byteLength
-            ? a.buffer
-            : a.buffer.slice(a.byteOffset, a.byteOffset + a.byteLength),
-          _,
-          typeDefs
-        ).b,
-      }),
+        typeDefs: { ArrayBuffer: TypeDef<ArrayBuffer, { v: string }> }
+      ) => {
+        const result = {
+          $t: typeName,
+          v: typeDefs.ArrayBuffer.replace(
+            a.byteOffset === 0 && a.byteLength === a.buffer.byteLength
+              ? a.buffer
+              : a.buffer.slice(a.byteOffset, a.byteOffset + a.byteLength),
+            _,
+            typeDefs
+          ).v,
+        };
+        debugger;
+        return result;
+      },
       revive: (
-        { b },
+        { v },
         _: any,
-        typeDefs: { ArrayBuffer: TypeDef<ArrayBuffer, { b: string }> }
+        typeDefs: { ArrayBuffer: TypeDef<ArrayBuffer, { v: string }> }
       ) => {
         const TypedArray = _global[typeName];
         return (
           TypedArray &&
-          new TypedArray(typeDefs.ArrayBuffer.revive({ b }, _, typeDefs))
+          new TypedArray(typeDefs.ArrayBuffer.revive({ v }, _, typeDefs))
         );
       },
     },

@@ -6,7 +6,7 @@ function getToStringTag(val: any) {
   return toStr.call(val).slice(8, -1);
 }
 
-function escapeDollarProps(value: any) {
+export function escapeDollarProps(value: any) {
   const keys = Object.keys(value);
   let dollarKeys: string[] | null = null;
   for (let i = 0, l = keys.length; i < l; ++i) {
@@ -95,10 +95,6 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
   function getTypeDef(realVal: any) {
     const type = typeof realVal;
     switch (typeof realVal) {
-      case "number":
-        return isNaN(realVal) || realVal === Infinity || realVal === -Infinity
-          ? typeDefs.SpecialNumber
-          : typeDefs.NormalNumber;
       case "object":
       case "function": {
         // "object", "function", null
@@ -108,10 +104,9 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
         let typeDef = protoMap.get(proto);
         if (typeDef !== undefined) return typeDef; // Null counts to! So the caching of Array.prototype also counts.
         const toStringTag = getToStringTag(realVal);
-        const entry = Object.entries(typeDefs).find(([typeName, typeDef]) =>
-          typeDef?.test
-            ? typeDef.test(realVal, toStringTag)
-            : typeName === toStringTag
+        const entry = Object.entries(typeDefs).find(
+          ([typeName, typeDef]) =>
+            typeDef?.test?.(realVal, toStringTag) ?? typeName === toStringTag
         );
         typeDef = entry?.[1];
         if (!typeDef) {
