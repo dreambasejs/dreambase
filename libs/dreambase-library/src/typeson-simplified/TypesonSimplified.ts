@@ -66,7 +66,7 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
             ? typeDef.revive(value, alternateChannel, typeDefs)
             : value;
         }
-        const top = stack[stack.length - 1];
+        let top = stack[stack.length - 1];
         if (top && top[0] === value) {
           // Do what the kid told us to
           // Unescape dollar props
@@ -78,13 +78,13 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
             value[k] = v;
           }
           stack.pop();
-          return value;
         }
 
         //
         // Child part
         //
         if (value === undefined || (key[0] === "$" && key !== "$t")) {
+          top = stack[stack.length - 1];
           let deletes: string[];
           let mods: object;
           if (top && top[0] === this) {

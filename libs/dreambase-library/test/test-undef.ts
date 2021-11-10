@@ -2,8 +2,8 @@ import { TypesonSimplified } from "../src/typeson-simplified/TypesonSimplified.j
 import builtIn from "../src/typeson-simplified/presets/builtin.js";
 import undef from "../src/typeson-simplified/types/undefined.js";
 
+const TSON = TypesonSimplified(builtIn, undef);
 describe("test-undef", () => {
-  const TSON = TypesonSimplified(builtIn, undef);
   it("should stringify undefined", () => {
     expect(TSON.stringify({ foo: null, bar: undefined })).toBe(
       JSON.stringify({ foo: null, bar: { $t: "undefined" } })
@@ -24,6 +24,7 @@ describe("test-undef", () => {
         undef: undefined,
         $undef: undefined,
         $$undef: undefined,
+        $Gunnar: "2",
         $t: undefined,
       },
       undef2: undefined,
@@ -32,11 +33,28 @@ describe("test-undef", () => {
     };
     const stringified = TSON.stringify(ORIG);
     const revived = TSON.parse(stringified);
-    debugger;
-    /*expect(Object.keys(revived).length).toEqual(Object.keys(ORIG).length);
-    expect(Object.keys(revived.bar).length).toEqual(
-      Object.keys(ORIG.bar).length
-    );*/
     expect(revived).toStrictEqual(ORIG);
+  });
+});
+
+describe("revive-sync-request", () => {
+  it("should revive sync request", () => {
+    const REQUEST = {
+      schema: {
+        $jobs2: {
+          markedForSync: undefined,
+          initiallySynced: true,
+          generateGlobalId: undefined,
+        },
+        $jobs: {
+          markedForSync: undefined,
+          initiallySynced: true,
+          generateGlobalId: undefined,
+        },
+      },
+    };
+    const stringified = TSON.stringify(REQUEST);
+    const revived = TSON.parse(stringified);
+    expect(revived).toStrictEqual(REQUEST);
   });
 });
