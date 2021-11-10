@@ -9,4 +9,9 @@ describe("test-undef", () => {
       JSON.stringify({ foo: null, bar: { $t: "undefined" } })
     );
   });
+  it("should revive undefined", () => {
+    const revived = TSON.parse(TSON.stringify({ foo: null, bar: undefined }));
+    expect(Object.keys(revived)).toStrictEqual(["foo", "bar"]);
+    expect(Object.values(revived)).toStrictEqual([null, undefined]);
+  });
 });
