@@ -19,6 +19,8 @@ export function escapeDollarProps(value: any) {
   const clone = { ...value };
   for (const k of dollarKeys) {
     delete clone[k];
+  }
+  for (const k of dollarKeys) {
     clone["$" + k] = value[k];
   }
   return clone;
@@ -53,9 +55,7 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
     },
 
     parse(tson: string, alternateChannel?: any) {
-      let parent = null;
-      let unescapeParentKeys: string[] = [];
-      let undefinedParentKeys: string[] = [];
+      const stack: [object, string[], object][] = [];
 
       return JSON.parse(tson, function (key, value) {
         //
@@ -68,38 +68,41 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
             ? typeDef.revive(value, alternateChannel, typeDefs)
             : value;
         }
-        if (value === parent) {
+        const top = stack[stack.length - 1];
+        if (top && top[0] === value) {
           // Do what the kid told us to
-          if (undefinedParentKeys.length > 0) {
-            value = { ...value };
-            for (const k of undefinedParentKeys) {
-              value[k] = undefined;
-            }
+          // Unescape dollar props
+          value = { ...value };
+          // Delete keys that children wanted us to delete
+          for (const k of top[1]) delete value[k];
+          // Set keys that children wanted us to set
+          for (const [k, v] of Object.entries(top[2])) {
+            value[k] = v;
           }
-          if (unescapeParentKeys.length > 0) {
-            // Unescape dollar props
-            value = { ...value };
-            for (const k of unescapeParentKeys) {
-              value[k.substr(1)] = value[k];
-              delete value[k];
-            }
-          }
-          unescapeParentKeys = [];
+          stack.pop();
           return value;
         }
 
         //
         // Child part
         //
-        if (value === undefined) {
-          // Preserve undefined
-          parent = this;
-          undefinedParentKeys.push(key);
-        }
-        if (key[0] === "$" && key !== "$t") {
-          // Unescape props
-          parent = this;
-          unescapeParentKeys.push(key);
+        if (value === undefined || (key[0] === "$" && key !== "$t")) {
+          let deletes: string[];
+          let mods: object;
+          if (top && top[0] === this) {
+            deletes = top[1];
+            mods = top[2];
+          } else {
+            stack.push([this, (deletes = []), (mods = {})]);
+          }
+          if (key[0] === "$" && key !== "$t") {
+            // Unescape props (also preserves undefined if this is a combo)
+            deletes.push(key);
+            mods[key.substr(1)] = value;
+          } else {
+            // Preserve undefined
+            mods[key] = undefined;
+          }
         }
 
         return value;
