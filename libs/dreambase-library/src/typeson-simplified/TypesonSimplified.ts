@@ -28,6 +28,8 @@ const ObjectDef = {
   replace: escapeDollarProps,
 };
 
+const DELETE = {};
+
 export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
   const typeDefs = typeDefsInputs.reduce(
     (p, c) => ({ ...p, ...c }),
@@ -53,6 +55,7 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
     parse(tson: string, alternateChannel?: any) {
       let parent = null;
       let unescapeParentKeys: string[] = [];
+      let undefinedParentKeys: string[] = [];
 
       return JSON.parse(tson, function (key, value) {
         //
@@ -67,6 +70,12 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
         }
         if (value === parent) {
           // Do what the kid told us to
+          if (undefinedParentKeys.length > 0) {
+            value = { ...value };
+            for (const k of undefinedParentKeys) {
+              value[k] = undefined;
+            }
+          }
           if (unescapeParentKeys.length > 0) {
             // Unescape dollar props
             value = { ...value };
@@ -82,7 +91,13 @@ export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
         //
         // Child part
         //
+        if (value === undefined) {
+          // Preserve undefined
+          parent = this;
+          undefinedParentKeys.push(key);
+        }
         if (key[0] === "$" && key !== "$t") {
+          // Unescape props
           parent = this;
           unescapeParentKeys.push(key);
         }
