@@ -30,8 +30,6 @@ const ObjectDef = {
   replace: escapeDollarProps,
 };
 
-const DELETE = {};
-
 export function TypesonSimplified(...typeDefsInputs: TypeDefSet[]) {
   const typeDefs = typeDefsInputs.reduce(
     (p, c) => ({ ...p, ...c }),
