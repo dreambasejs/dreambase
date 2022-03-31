@@ -35,7 +35,7 @@ describe("test-stringify-plain", () => {
   });
   it("should not stringify undefined", () => {
     expect(TSON.stringify({ foo: null, bar: undefined })).toBe(
-      JSON.stringify({ foo: null, bar: undefined })
+      JSON.stringify({ foo: null })
     );
   });
   it("should escape props with leading $", () => {

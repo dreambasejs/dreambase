@@ -9,9 +9,9 @@
 
 export default {
   undefined: {
-    replace: () => {
-      $t: "undefined";
-    },
+    replace: () => ({
+      $t: "undefined"
+    }),
     revive: () => undefined,
   },
 };
