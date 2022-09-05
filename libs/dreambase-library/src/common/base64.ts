@@ -13,8 +13,20 @@ export const b64decode: (b64: string) => Uint8Array =
 
 export const b64encode: (b: Uint8Array | Buffer | ArrayBuffer) => string =
   typeof Buffer !== "undefined"
-    ? (b) =>
-        ArrayBuffer.isView(b)
-          ? Buffer.from(b.buffer, b.byteOffset, b.byteLength).toString("base64")
-          : Buffer.from(b).toString("base64")
-    : (b) => btoa(String.fromCharCode.apply(null, b));
+    ? (b) => {
+        if (ArrayBuffer.isView(b)) {
+          return Buffer.from(b.buffer, b.byteOffset, b.byteLength).toString(
+            "base64"
+          );
+        } else {
+          return Buffer.from(b).toString("base64");
+        }
+      }
+    : (b) => {
+        return btoa(
+          String.fromCharCode.apply(
+            null,
+            ArrayBuffer.isView(b) ? b : new Uint8Array(b)
+          )
+        );
+      };
