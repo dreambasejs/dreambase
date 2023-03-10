@@ -1,5 +1,13 @@
 import { b64LexEncode, b64LexDecode } from "./common/b64lex.js";
-import { randomFillSync } from "universal-imports";
+
+const getRandomValues: (buf: Uint8Array) => void =
+  typeof crypto !== "undefined"
+    ? crypto.getRandomValues.bind(crypto)
+    : (buf: Uint8Array) => {
+        for (let i = 0; i < buf.length; ++i) {
+          buf[i] = Math.floor(Math.random() * 256);
+        }
+      };
 
 let time = 0;
 /**
@@ -49,7 +57,7 @@ export function newId(): string {
   timePart[4] = time / 0x100;
   timePart[5] = time;
   const randomPart = new Uint8Array(a.buffer, 6);
-  randomFillSync(randomPart);
+  getRandomValues(randomPart);
   //randomPart[0] = randomPart[0] & 0x0f | 0x04; // UUID version 4.
   //randomPart[2] = randomPart[2] & 0x07 | 0x08; // Variant 1.
   return b64LexEncode(a);
