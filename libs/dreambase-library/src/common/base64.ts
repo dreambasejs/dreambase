@@ -23,10 +23,12 @@ export const b64encode: (b: Uint8Array | Buffer | ArrayBuffer) => string =
         }
       }
     : (b) => {
-        return btoa(
-          String.fromCharCode.apply(
-            null,
-            ArrayBuffer.isView(b) ? b : new Uint8Array(b)
-          )
-        );
+        const u8a = ArrayBuffer.isView(b) ? b : new Uint8Array(b);
+        const CHUNK_SIZE = 0x1000;
+        const strs: string[] = [];
+        for (let i = 0, l = u8a.length; i < l; i += CHUNK_SIZE) {
+          const chunk = u8a.subarray(i, i + CHUNK_SIZE) as Uint8Array;
+          strs.push(String.fromCharCode.apply(null, chunk));
+        }
+        return btoa(strs.join(""));
       };
