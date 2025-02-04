@@ -1,11 +1,13 @@
 import { BisonBinaryTypesNode } from "./BisonBinaryTypesNode.js";
 import builtin from "./presets/builtin.js";
 import { TypeDefSet } from "./TypeDefSet.js";
+import FakeBlob from "./types/FakeBlob.js";
 import { TypesonSimplified } from "./TypesonSimplified.js";
 
 export function BisonForNode(...typeDefsInputs: TypeDefSet[]) {
   const tson = TypesonSimplified(
     builtin,
+    FakeBlob,
     BisonBinaryTypesNode,
     ...typeDefsInputs
   );

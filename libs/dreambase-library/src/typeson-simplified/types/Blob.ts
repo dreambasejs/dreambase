@@ -1,7 +1,7 @@
 import { b64decode, b64encode } from "../../common/base64.js";
 import { FakeBlob } from "../FakeBlob.js";
 import { readBlobSync } from "../readBlobSync.js";
-import { string2ArrayBuffer } from "../string2arraybuffer.js";
+import { string2ArrayBuffer } from "../string2ArrayBuffer.js";
 
 export default {
   Blob: {
