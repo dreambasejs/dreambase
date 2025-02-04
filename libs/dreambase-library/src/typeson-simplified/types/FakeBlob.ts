@@ -3,7 +3,7 @@ import { FakeBlob } from "../FakeBlob.js";
 
 export default {
   Blob: {
-    test: (blob: FakeBlob, toStringTag: string) => blob instanceof FakeBlob,
+    test: (blob: FakeBlob) => blob instanceof FakeBlob,
     replace: (blob: FakeBlob) => ({
       $t: "Blob",
       v: b64encode(blob.buf),

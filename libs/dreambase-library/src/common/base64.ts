@@ -1,7 +1,13 @@
+const hasArrayBufferB64 = "fromBase64" in Uint8Array; // https://github.com/tc39/proposal-arraybuffer-base64;
+
 export const b64decode: (b64: string) => Uint8Array =
   typeof Buffer !== "undefined"
-    ? (base64) => Buffer.from(base64, "base64")
+    ? (base64) => Buffer.from(base64, "base64") // Node
+    : hasArrayBufferB64
+    ? // @ts-ignore: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array/fromBase64
+      (base64) => Uint8Array.fromBase64(base64) // Modern javascript standard
     : (base64) => {
+        // Legacy DOM workaround
         const binary_string = atob(base64);
         const len = binary_string.length;
         const bytes = new Uint8Array(len);
@@ -14,6 +20,7 @@ export const b64decode: (b64: string) => Uint8Array =
 export const b64encode: (b: Uint8Array | Buffer | ArrayBuffer) => string =
   typeof Buffer !== "undefined"
     ? (b) => {
+        // Node
         if (ArrayBuffer.isView(b)) {
           return Buffer.from(b.buffer, b.byteOffset, b.byteLength).toString(
             "base64"
@@ -22,7 +29,11 @@ export const b64encode: (b: Uint8Array | Buffer | ArrayBuffer) => string =
           return Buffer.from(b).toString("base64");
         }
       }
+    : hasArrayBufferB64
+    ? // @ts-ignore https://github.com/tc39/proposal-arraybuffer-base64
+      (b) => b.toBase64() // Modern Javascript standard
     : (b) => {
+        // Legacy DOM workaround
         const u8a = ArrayBuffer.isView(b) ? b : new Uint8Array(b);
         const CHUNK_SIZE = 0x1000;
         const strs: string[] = [];
