@@ -1,9 +1,10 @@
-const hasArrayBufferB64 = "fromBase64" in Uint8Array; // https://github.com/tc39/proposal-arraybuffer-base64;
+const hasArrayBufferFromBase64 = "fromBase64" in Uint8Array; // https://github.com/tc39/proposal-arraybuffer-base64;
+const hasArrayBufferToBase64 = "toBase64" in Uint8Array.prototype; // https://github.com/tc39/proposal-arraybuffer-base64;
 
 export const b64decode: (b64: string) => Uint8Array =
   typeof Buffer !== "undefined"
     ? (base64) => Buffer.from(base64, "base64") // Node
-    : hasArrayBufferB64
+    : hasArrayBufferFromBase64
     ? // @ts-ignore: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array/fromBase64
       (base64) => Uint8Array.fromBase64(base64) // Modern javascript standard
     : (base64) => {
@@ -29,7 +30,7 @@ export const b64encode: (b: Uint8Array | Buffer | ArrayBuffer) => string =
           return Buffer.from(b).toString("base64");
         }
       }
-    : hasArrayBufferB64
+    : hasArrayBufferToBase64
     ? // @ts-ignore https://github.com/tc39/proposal-arraybuffer-base64
       (b) => b.toBase64() // Modern Javascript standard
     : (b) => {
