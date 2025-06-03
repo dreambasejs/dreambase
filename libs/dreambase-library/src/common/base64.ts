@@ -31,8 +31,12 @@ export const b64encode: (b: Uint8Array | Buffer | ArrayBuffer) => string =
         }
       }
     : hasArrayBufferToBase64
-    ? // @ts-ignore https://github.com/tc39/proposal-arraybuffer-base64
-      (b) => b.toBase64() // Modern Javascript standard
+    ? (b) => {
+        // Uint8Array.prototype.toBase64 is available in modern browsers
+        const u8a = ArrayBuffer.isView(b) ? b : new Uint8Array(b);
+        // @ts-ignore: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Uint8Array/toBase64
+        return u8a.toBase64();
+      }
     : (b) => {
         // Legacy DOM workaround
         const u8a = ArrayBuffer.isView(b) ? b : new Uint8Array(b);
