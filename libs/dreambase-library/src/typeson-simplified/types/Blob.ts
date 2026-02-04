@@ -3,7 +3,7 @@ import { FakeBlob } from "../FakeBlob.js";
 import { readBlobSync } from "../readBlobSync.js";
 import { string2ArrayBuffer } from "../string2ArrayBuffer.js";
 
-export default {
+export const blobTypeDef = {
   Blob: {
     test: (blob: Blob | FakeBlob, toStringTag: string) =>
       toStringTag === "Blob" || blob instanceof FakeBlob,
@@ -23,3 +23,5 @@ export default {
     },
   },
 };
+
+export default blobTypeDef;

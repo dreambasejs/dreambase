@@ -1,4 +1,4 @@
-export default {
+export const setTypeDef = {
   Set: {
     replace: (set: Set<any>) => ({
       $t: "Set",
@@ -7,3 +7,5 @@ export default {
     revive: ({ v }) => new Set(v),
   },
 };
+
+export default setTypeDef;

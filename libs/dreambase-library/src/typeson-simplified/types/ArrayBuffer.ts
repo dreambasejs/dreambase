@@ -1,6 +1,6 @@
 import { b64LexDecode, b64LexEncode } from "../../common/b64lex.js";
 
-export default {
+export const arrayBufferTypeDef = {
   ArrayBuffer: {
     replace: (ab: ArrayBuffer) => ({
       $t: "ArrayBuffer",
@@ -14,3 +14,5 @@ export default {
     },
   },
 };
+
+export default arrayBufferTypeDef;

@@ -1,6 +1,6 @@
 import { TypeDefSet } from "../TypeDefSet.js";
 
-const bigIntDef: TypeDefSet = {
+export const bigintTypeDef: TypeDefSet = {
   bigint: {
     replace: (realVal: bigint) => {
       return { $t: "bigint", v: "" + realVal };
@@ -9,4 +9,4 @@ const bigIntDef: TypeDefSet = {
   },
 };
 
-export default bigIntDef;
+export default bigintTypeDef;

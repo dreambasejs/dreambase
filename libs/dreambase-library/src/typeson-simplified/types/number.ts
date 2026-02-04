@@ -1,4 +1,4 @@
-export default {
+export const numberTypeDef = {
   number: {
     replace: (num: number) => {
       switch (true) {
@@ -15,3 +15,5 @@ export default {
     revive: ({ v }) => Number(v),
   },
 };
+
+export default numberTypeDef;

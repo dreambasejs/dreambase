@@ -7,11 +7,13 @@
  * If including this typedef, the revived object would be {foo: undefined}.
  */
 
-export default {
+export const undefinedTypeDef = {
   undefined: {
     replace: () => ({
-      $t: "undefined"
+      $t: "undefined",
     }),
     revive: () => undefined,
   },
 };
+
+export default undefinedTypeDef;

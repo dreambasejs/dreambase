@@ -2,7 +2,7 @@ import { b64decode, b64encode } from "../../common/base64.js";
 import { FakeBlob } from "../FakeBlob.js";
 import { FakeFile } from "../FakeFile.js";
 
-export default {
+export const fakeFileTypeDef = {
   File: {
     test: (file: FakeFile) => file instanceof FakeFile,
     replace: (file: FakeFile) => ({
@@ -19,3 +19,5 @@ export default {
     },
   },
 };
+
+export default fakeFileTypeDef;

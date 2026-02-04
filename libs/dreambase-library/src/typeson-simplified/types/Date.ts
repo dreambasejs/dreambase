@@ -1,4 +1,4 @@
-export default {
+export const dateTypeDef = {
   Date: {
     replace: (date: Date) => ({
       $t: "Date",
@@ -7,3 +7,5 @@ export default {
     revive: ({ v }) => new Date(v === "NaN" ? NaN : Date.parse(v)),
   },
 };
+
+export default dateTypeDef;

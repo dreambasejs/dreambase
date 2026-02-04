@@ -1,22 +1,23 @@
 import { TypeDefSet } from "../TypeDefSet.js";
-import numberDef from "../types/number.js";
-import bigintDef from "../types/bigint.js";
-import DateDef from "../types/Date.js";
-import SetDef from "../types/Set.js";
-import MapDef from "../types/Map.js";
-import TypedArraysDefs from "../types/TypedArray.js";
-import ArrayBufferDef from "../types/ArrayBuffer.js";
-import BlobDef from "../types/Blob.js";
+import { numberTypeDef } from "../types/number.js";
+import { bigintTypeDef } from "../types/bigint.js";
+import { dateTypeDef } from "../types/Date.js";
+import { setTypeDef } from "../types/Set.js";
+import { mapTypeDef } from "../types/Map.js";
+import { typedArrayTypeDefs } from "../types/TypedArray.js";
+import { arrayBufferTypeDef } from "../types/ArrayBuffer.js";
+import { blobTypeDef } from "../types/Blob.js";
 
-const builtin: TypeDefSet = {
-  ...numberDef,
-  ...bigintDef,
-  ...DateDef,
-  ...SetDef,
-  ...MapDef,
-  ...TypedArraysDefs,
-  ...ArrayBufferDef,
-  ...BlobDef, // Should be moved to another preset for DOM types (or universal? since it supports node as well with FakeBlob)
+export const builtInTypeDefs: TypeDefSet = {
+  ...numberTypeDef,
+  ...bigintTypeDef,
+  ...dateTypeDef,
+  ...setTypeDef,
+  ...mapTypeDef,
+  ...typedArrayTypeDefs,
+  ...arrayBufferTypeDef,
+  ...blobTypeDef, // Should be moved to another preset for DOM types (or universal? since it supports node as well with FakeBlob)
 };
 
-export default builtin;
+// Keep default export for backward compatibility
+export default builtInTypeDefs;

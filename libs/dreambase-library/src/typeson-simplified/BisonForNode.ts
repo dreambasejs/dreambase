@@ -1,15 +1,15 @@
 import { BisonBinaryTypesNode } from "./BisonBinaryTypesNode.js";
-import builtin from "./presets/builtin.js";
+import { builtInTypeDefs } from "./presets/builtin.js";
 import { TypeDefSet } from "./TypeDefSet.js";
-import FakeBlob from "./types/FakeBlob.js";
+import { fakeBlobTypeDef } from "./types/FakeBlob.js";
 import { TypesonSimplified } from "./TypesonSimplified.js";
 
 export function BisonForNode(...typeDefsInputs: TypeDefSet[]) {
   const tson = TypesonSimplified(
-    builtin,
-    FakeBlob,
+    builtInTypeDefs,
+    fakeBlobTypeDef,
     BisonBinaryTypesNode,
-    ...typeDefsInputs
+    ...typeDefsInputs,
   );
   return {
     toBinary(value: any): Buffer {
@@ -27,7 +27,7 @@ export function BisonForNode(...typeDefsInputs: TypeDefSet[]) {
           const lenBuf = new ArrayBuffer(4);
           new DataView(lenBuf).setUint32(0, b.byteLength);
           return Buffer.concat([new Uint8Array(lenBuf), new Uint8Array(b)]);
-        })
+        }),
       );
       return [buf, json];
     },

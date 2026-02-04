@@ -1,10 +1,14 @@
 import { BisonBinaryTypes } from "./BisonBinaryTypes.js";
-import builtin from "./presets/builtin.js";
+import { builtInTypeDefs } from "./presets/builtin.js";
 import { TypeDefSet } from "./TypeDefSet.js";
 import { TypesonSimplified } from "./TypesonSimplified.js";
 
 export function Bison(...typeDefsInputs: TypeDefSet[]) {
-  const tson = TypesonSimplified(builtin, BisonBinaryTypes, ...typeDefsInputs);
+  const tson = TypesonSimplified(
+    builtInTypeDefs,
+    BisonBinaryTypes,
+    ...typeDefsInputs,
+  );
   return {
     toBinary(value: any): Blob {
       const [blob, json] = this.stringify(value);
@@ -20,10 +24,10 @@ export function Bison(...typeDefsInputs: TypeDefSet[]) {
           const lenBuf = new ArrayBuffer(4);
           new DataView(lenBuf).setUint32(
             0,
-            "byteLength" in b ? b.byteLength : b.size
+            "byteLength" in b ? b.byteLength : b.size,
           );
           return new Blob([lenBuf, b]);
-        })
+        }),
       );
       return [blob, json];
     },
@@ -44,7 +48,7 @@ export function Bison(...typeDefsInputs: TypeDefSet[]) {
 
     async fromBinary<T = any>(blob: Blob): Promise<T> {
       const len = new DataView(
-        await readBlobBinary(blob.slice(0, 4))
+        await readBlobBinary(blob.slice(0, 4)),
       ).getUint32(0);
       const binData = blob.slice(4, len + 4);
       const json = await readBlob(blob.slice(len + 4));

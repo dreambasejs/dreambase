@@ -2,7 +2,7 @@ import { b64decode, b64encode } from "../../common/base64.js";
 import { readBlobSync } from "../readBlobSync.js";
 import { string2ArrayBuffer } from "../string2ArrayBuffer.js";
 
-export default {
+export const fileTypeDef = {
   File: {
     test: (file: File, toStringTag: string) => toStringTag === "File",
     replace: (file: File) => ({
@@ -21,3 +21,5 @@ export default {
     },
   },
 };
+
+export default fileTypeDef;

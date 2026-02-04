@@ -1,11 +1,28 @@
 {
   "name": "dreambase-library",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "description": "Library of dreambase-related code for use in other libraries.",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "esnext": "dist/index.js",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./tson/types": {
+      "types": "./dist/typeson-simplified/types/index.d.ts",
+      "import": "./dist/typeson-simplified/types/index.js",
+      "default": "./dist/typeson-simplified/types/index.js"
+    },
+    "./tson/types/*": {
+      "types": "./dist/typeson-simplified/types/*.d.ts",
+      "import": "./dist/typeson-simplified/types/*.js",
+      "default": "./dist/typeson-simplified/types/*.js"
+    }
+  },
   "engines": {
     "node": ">=14.8.0"
   },

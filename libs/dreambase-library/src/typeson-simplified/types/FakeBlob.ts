@@ -1,7 +1,7 @@
 import { b64decode, b64encode } from "../../common/base64.js";
 import { FakeBlob } from "../FakeBlob.js";
 
-export default {
+export const fakeBlobTypeDef = {
   Blob: {
     test: (blob: FakeBlob) => blob instanceof FakeBlob,
     replace: (blob: FakeBlob) => ({
@@ -15,3 +15,5 @@ export default {
     },
   },
 };
+
+export default fakeBlobTypeDef;

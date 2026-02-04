@@ -6,7 +6,7 @@ const TSON = TypesonSimplified(builtIn, undef);
 describe("test-undef", () => {
   it("should stringify undefined", () => {
     expect(TSON.stringify({ foo: null, bar: undefined })).toBe(
-      JSON.stringify({ foo: null, bar: { $t: "undefined" } })
+      JSON.stringify({ foo: null, bar: { $t: "undefined" } }),
     );
   });
   it("should revive undefined", () => {

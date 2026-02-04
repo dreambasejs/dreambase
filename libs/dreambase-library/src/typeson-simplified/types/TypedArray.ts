@@ -1,7 +1,7 @@
 import { _global } from "../../common/_global.js";
 import { TypeDef } from "../TypeDef.js";
 
-export default [
+export const typedArrayTypeDefs = [
   "Int8Array",
   "Uint8Array",
   "Uint8ClampedArray",
@@ -26,7 +26,7 @@ export default [
       replace: (
         a: ArrayBufferView,
         _: any,
-        typeDefs: { ArrayBuffer: TypeDef<ArrayBuffer, { v: string }> }
+        typeDefs: { ArrayBuffer: TypeDef<ArrayBuffer, { v: string }> },
       ) => {
         const result = {
           $t: typeName,
@@ -35,7 +35,7 @@ export default [
               ? a.buffer
               : a.buffer.slice(a.byteOffset, a.byteOffset + a.byteLength),
             _,
-            typeDefs
+            typeDefs,
           ).v,
         };
         return result;
@@ -43,7 +43,7 @@ export default [
       revive: (
         { v },
         _: any,
-        typeDefs: { ArrayBuffer: TypeDef<ArrayBuffer, { v: string }> }
+        typeDefs: { ArrayBuffer: TypeDef<ArrayBuffer, { v: string }> },
       ) => {
         const TypedArray = _global[typeName];
         return (
@@ -53,5 +53,7 @@ export default [
       },
     },
   }),
-  {}
+  {},
 );
+
+export default typedArrayTypeDefs;

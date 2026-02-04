@@ -1,4 +1,4 @@
-export default {
+export const mapTypeDef = {
   Map: {
     replace: (map: Map<any, any>) => ({
       $t: "Map",
@@ -7,3 +7,5 @@ export default {
     revive: ({ v }) => new Map(v),
   },
 };
+
+export default mapTypeDef;

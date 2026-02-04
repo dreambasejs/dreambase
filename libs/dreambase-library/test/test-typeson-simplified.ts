@@ -35,7 +35,7 @@ describe("test-stringify-plain", () => {
   });
   it("should not stringify undefined", () => {
     expect(TSON.stringify({ foo: null, bar: undefined })).toBe(
-      JSON.stringify({ foo: null })
+      JSON.stringify({ foo: null }),
     );
   });
   it("should escape props with leading $", () => {
@@ -109,7 +109,7 @@ describe("test-stringify-specials", () => {
           $t: "bigint",
           v: "53169852434298556854127064950",
         },
-      ])
+      ]),
     );
   });
 });
@@ -131,7 +131,7 @@ describe("test-stringify-complex", () => {
           $t: "Date",
           v: "NaN",
         },
-      })
+      }),
     );
     expect(TSON.parse(tson).foo).toStrictEqual(plainObject.foo);
     expect(TSON.parse(tson).bar.getTime()).toBeNaN();
@@ -145,7 +145,7 @@ describe("test-stringify-complex", () => {
       JSON.stringify({
         $t: "Map",
         v: [["foo", { foo: [1, 2, 3, { $t: "number", v: "Infinity" }] }]],
-      })
+      }),
     );
     expect(TSON.parse(tson)).toStrictEqual(m);
   });
