@@ -38,7 +38,11 @@ export function BisonForNode(...typeDefsInputs: TypeDefSet[]) {
       while (pos < binData.byteLength) {
         const len = binData.readUInt32BE(pos);
         pos += 4;
-        const dataBlob = binData.slice(pos, pos + len).buffer;
+        const slice = binData.slice(pos, pos + len);
+        // Handle Node.js Buffer's shared ArrayBuffer pool
+        const dataBlob = slice.buffer.byteLength === slice.byteLength
+          ? slice.buffer
+          : slice.buffer.slice(slice.byteOffset, slice.byteOffset + slice.byteLength);
         pos += len;
         buffers.push(dataBlob);
       }
