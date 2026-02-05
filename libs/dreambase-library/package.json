@@ -1,6 +1,6 @@
 {
   "name": "dreambase-library",
-  "version": "1.0.28",
+  "version": "1.0.29",
   "description": "Library of dreambase-related code for use in other libraries.",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -21,7 +21,8 @@
       "types": "./dist/typeson-simplified/types/*.d.ts",
       "import": "./dist/typeson-simplified/types/*.js",
       "default": "./dist/typeson-simplified/types/*.js"
-    }
+    },
+    "./dist/*": "./dist/*"
   },
   "engines": {
     "node": ">=14.8.0"
