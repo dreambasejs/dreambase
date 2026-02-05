@@ -22,6 +22,7 @@
  */
 
 import { b64LexDecode, b64LexEncode } from '../../common/b64lex.js';
+import { b64decode } from '../../common/base64.js';
 import { TSONRef, TSONRefData } from '../TSONRef.js';
 import type { TypeDefSet } from '../TypeDefSet.js';
 
@@ -170,9 +171,9 @@ export const blobBlobRefDef = {
         ) as unknown as Blob;
       }
 
-      // Inline data
+      // Inline data - use normal base64 (not b64Lex) since Blobs are never indexed
       if (val.$v) {
-        const ba = b64LexDecode(val.$v);
+        const ba = b64decode(val.$v);
         return new Blob([ba], { type: val.$ct });
       }
 
