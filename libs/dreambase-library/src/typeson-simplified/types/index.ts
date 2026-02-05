@@ -11,3 +11,15 @@ export { numberTypeDef } from "./number.js";
 export { setTypeDef } from "./Set.js";
 export { typedArrayTypeDefs } from "./TypedArray.js";
 export { undefinedTypeDef } from "./undefined.js";
+
+// Blob reference type definitions (for blob offloading)
+export {
+  BLOB_THRESHOLD,
+  BlobStore,
+  BlobRefContext,
+  createBlobRefContext,
+  arrayBufferBlobRefDef,
+  blobBlobRefDef,
+  typedArrayBlobRefDefs,
+  blobRefTypeDefs,
+} from "./BlobRef.js";

@@ -8,5 +8,7 @@ export * from "./FakeBlob.js";
 export * from "./FakeFile.js";
 export * from "./TypeDef.js";
 export * from "./TypeDefSet.js";
+export * from "./TSONRef.js";
+export * from "./StreamingSyncProcessor.js";
 export * from "./presets/builtin.js";
 export * from "./types/index.js";

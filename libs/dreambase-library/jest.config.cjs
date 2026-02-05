@@ -1,8 +1,17 @@
-const { defaults } = require("jest-config");
-
 module.exports = {
-  preset: "ts-jest/presets/js-with-ts",
+  preset: "ts-jest/presets/default-esm",
   testEnvironment: "node",
   testRegex: "(/test/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-  moduleNameMapper: { ...defaults.moduleNameMapper, "(.*)\\.js$": "$1" },
+  moduleNameMapper: {
+    "^(\\.{1,2}/.*)\\.js$": "$1",
+  },
+  transform: {
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        useESM: true,
+      },
+    ],
+  },
+  extensionsToTreatAsEsm: [".ts"],
 };
