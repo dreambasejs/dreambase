@@ -10,8 +10,12 @@ export const fakeBlobTypeDef = {
       type: blob.type,
     }),
     revive: ({ type, v }) => {
-      const ab = b64decode(v);
-      return new FakeBlob(ab.buffer, type);
+      const ba = b64decode(v);
+      // Handle Node.js Buffer's shared ArrayBuffer pool
+      const buf = ba.buffer.byteLength === ba.byteLength
+        ? ba.buffer
+        : ba.buffer.slice(ba.byteOffset, ba.byteOffset + ba.byteLength);
+      return new FakeBlob(buf, type);
     },
   },
 };
